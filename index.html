@@ -220,6 +220,12 @@ table.ed tr.auto td{background:var(--band2);color:var(--ink2)}
 <div id="modalRoot"></div>
 
 <script>
+  // Firebase 연결(firebase-bridge.js)이 준비되면 앱에 저장소를 넘겨줌
+  window.__gosaReady = new Promise(r => { window.__gosaResolve = r; });
+  window.claude = { use: name => window.__gosaReady.then(p => (p && p[name]) || null) };
+</script>
+<script type="module" src="firebase-bridge.js"></script>
+<script>
 // <core>
 /* ===================== 날짜 도우미 ===================== */
 const WD = '일월화수목금토';
@@ -1281,7 +1287,7 @@ const Store = {
     for (const d of rs.docs) await S.db.doc('ranges/' + d.id).delete();
   },
   async saveRange(e, subject, text, teacher) {
-    const doc = { examId: e.id, subject, text, teacher, updatedAt: Date.now(), by: S.uid || '', email: (S.platform && S.platform.email) || '' };
+    const doc = { examId: e.id, subject, text, teacher, updatedAt: Date.now(), by: S.uid || '' };
     S.ranges[subject] = doc;
     if (!S.db) return;
     await S.db.doc('ranges/' + rangeDocId(e.id, subject)).set(doc);
@@ -1346,9 +1352,7 @@ function renderHero() {
   const h = $('#hero'), now = new Date();
   document.body.classList.toggle('norole', !S.role || S.mode === 'loading');
   const date = `${now.getMonth() + 1}월 ${now.getDate()}일 ${WD[now.getDay()]}요일`;
-  const P = S.platform;
-  const acct = P ? `<span class="me" title="${esc(P.email)}">${esc(P.name || P.email)}</span><button class="hbtn" data-act="signOut">로그아웃</button>` : '';
-  const who = S.mode !== 'loading' && S.role ? `<span class="me">${admin() ? '관리자' : '과목 담당 교사'}</span>${admin() ? `<button class="hbtn" data-act="pinChange">${ic('lock')}${P ? '관리자 계정' : '번호 변경'}</button>` : ''}${!P || P.isAdmin ? `<button class="hbtn" data-act="switchRole">${ic('swap')}역할 바꾸기</button>` : ''}${acct}` : acct;
+  const who = S.mode !== 'loading' && S.role ? `<span class="me">${admin() ? '관리자' : '과목 담당 교사'}</span>${admin() ? `<button class="hbtn" data-act="pinChange">${ic('lock')}번호 변경</button>` : ''}<button class="hbtn" data-act="switchRole">${ic('swap')}역할 바꾸기</button>` : '';
   let body = '';
   if (S.mode === 'loading') body = `<div class="dateline"><span>${date}</span></div><div class="greet">불러오는 중…</div>`;
   else if (!S.role) body = `<div class="dateline"><span>${date}</span></div><div class="greet">어떤 역할로 들어오셨나요?</div><div class="glass"><div class="gr"><span class="tag">안내</span>고르신 역할은 이 기기에서 기억됩니다. 오른쪽 위 ‘역할 바꾸기’로 언제든 바꿀 수 있습니다.</div></div>`;
@@ -1370,6 +1374,7 @@ function renderHero() {
   h.innerHTML = `${DECO}<div class="hero-in"><div class="brand"><div class="logo"><img src="${LOGO}" alt=""></div><div><div class="school">${SCHOOL_EN}</div><div class="app">고사 운영 도우미</div></div><span class="sp"></span><div class="who">${who}</div></div>${body}</div>`;
   const bn = $('#banner');
   if (S.mode === 'local') bn.innerHTML = `<div class="banner">이 화면에서는 공유 저장소에 연결되지 않아 입력 내용이 이 창에서만 유지됩니다. claude.ai에서 이 페이지를 열면 모든 선생님의 입력이 한곳에 저장됩니다.</div>`;
+  else if (S.standalone && window.GOSA_FB_ERROR) bn.innerHTML = `<div class="banner">공유 저장소(Firebase)에 연결하지 못했습니다: ${esc(window.GOSA_FB_ERROR)} — 지금은 이 브라우저에만 저장됩니다.</div>`;
   else if (S.standalone) bn.innerHTML = `<div class="banner">이 주소에서는 입력 내용이 <b>이 기기의 이 브라우저에만</b> 저장됩니다. 다른 선생님과 함께 쓰려면 교무부에서 공유한 Claude 링크를 이용해 주세요. 옮길 때는 더보기 → 백업 내보내기를 쓰세요.</div>`;
   else if (S.stale) bn.innerHTML = `<div class="banner">저장소 응답이 늦어지고 있습니다. 화면의 내용이 최신이 아닐 수 있습니다.</div>`;
   else bn.innerHTML = '';
@@ -1391,7 +1396,7 @@ function renderNav() {
 function openMore() {
   const list = sortedExams().map(x => `<button class="${x.id === S.examId ? 'on' : ''}" data-act="pick" data-id="${x.id}">${ic('cal')}<span><div>${esc(x.year)} ${esc(examLabel(x))}</div><div class="m">${esc(dShort(examStart(x)))} ~ ${esc(dShort(examEnd(x)))}${examState(x) === 'now' ? ' · 진행 중' : ''}</div></span></button>`).join('');
   modal(`<h2>고사 목록</h2><p class="hint">작업할 고사를 고르세요.</p><div class="sheetlist">${list || '<div class="muted">등록된 고사가 없습니다.</div>'}</div>
-    <h2 style="margin-top:20px">설정</h2><div class="sheetlist">${admin() ? `<button data-act="newExam">${ic('plus')}새 고사 만들기</button><button data-act="pinChange">${ic('lock')}${S.platform ? '관리자 계정 관리' : '관리자 번호 변경'}</button><button data-act="backupOut">${ic('doc')}백업 내보내기 <span class="m">(모든 고사·시험범위 .json)</span></button><button data-act="backupIn">${ic('list')}백업 가져오기</button>` : ''}${S.platform ? `<button data-act="signOut">${ic('swap')}로그아웃 <span class="m">${esc(S.platform.email)}</span></button>` : ''}<button data-act="switchRole">${ic('swap')}역할 바꾸기 <span class="m">(현재: ${admin() ? '관리자' : '과목 담당 교사'})</span></button></div>
+    <h2 style="margin-top:20px">설정</h2><div class="sheetlist">${admin() ? `<button data-act="newExam">${ic('plus')}새 고사 만들기</button><button data-act="pinChange">${ic('lock')}관리자 번호 변경</button><button data-act="backupOut">${ic('doc')}백업 내보내기 <span class="m">(모든 고사·시험범위 .json)</span></button><button data-act="backupIn">${ic('list')}백업 가져오기</button>` : ''}<button data-act="switchRole">${ic('swap')}역할 바꾸기 <span class="m">(현재: ${admin() ? '관리자' : '과목 담당 교사'})</span></button></div>
     <div class="acts"><button class="btn" data-close>닫기</button></div>`);
 }
 const TAB_TITLE = () => ({ info: '시험 일정', range: admin() ? '시험범위 수합' : '시험범위 입력', doc: '통합 문서', committee: '학업성적관리위원회' });
@@ -1442,12 +1447,30 @@ function viewRolePick() {
       <button class="rolecard" data-act="roleTeacher"><div class="rh">${ic('edit')}과목 담당 교사</div>
         <div class="rb">맡은 과목의 시험범위를 입력하고, 통합 문서를 확인합니다.</div></button>
       <button class="rolecard" data-act="roleAdmin"><div class="rh">${ic('lock')}관리자 <span class="muted" style="font-weight:600;font-size:14px">교무부 담당</span></div>
-        <div class="rb">시험 일정·시간표를 만들고 범위 수합, 통합 문서, 학업성적관리위원회를 관리합니다.<br><span class="need">${S.platform ? (S.platform.isAdmin ? '관리자 계정으로 로그인됨' : '관리자로 등록된 계정만') : '관리자 번호 필요'}</span></div></button>
+        <div class="rb">시험 일정·시간표를 만들고 범위 수합, 통합 문서, 학업성적관리위원회를 관리합니다.<br><span class="need">관리자 번호 필요</span></div></button>
     </div>`;
+}
+// Firebase 버전: 관리자 번호가 아직 없으면 처음 정하기
+function openPinInit() {
+  modal(`<h2>관리자 번호 처음 정하기</h2><p class="hint">아직 관리자 번호가 없습니다. 지금 정하는 번호가 관리자 화면의 열쇠가 됩니다. 영문과 숫자를 섞어 8자리 이상으로 정해 주세요.</p>
+    <form id="pinInitForm"><div class="grid" style="grid-template-columns:1fr">
+      <label class="f">관리자 번호<input type="password" name="n1" autocomplete="new-password"></label>
+      <label class="f">관리자 번호 확인<input type="password" name="n2" autocomplete="new-password"></label></div>
+    <div class="pinmsg" id="pinMsg"></div>
+    <div class="acts"><button type="button" class="btn" data-close>취소</button><button class="btn pri" type="submit">정하기</button></div></form>`);
+  const f = $('#pinInitForm'); setTimeout(() => f.n1.focus(), 30);
+  f.onsubmit = async ev => {
+    ev.preventDefault();
+    const msg = $('#pinMsg'), n1 = f.n1.value.trim();
+    if (n1.length < 8) { msg.textContent = '8자리 이상으로 정해 주세요.'; return; }
+    if (n1 !== f.n2.value.trim()) { msg.textContent = '두 번호가 서로 다릅니다.'; return; }
+    try { await S.platform.initPin(n1); closeModal(); setRole('admin'); toast('관리자 번호를 정했습니다. 잊지 않게 따로 적어 두세요.'); }
+    catch (x) { msg.textContent = '정하지 못했습니다. 이미 다른 기기에서 번호를 정했을 수 있습니다.'; }
+  };
 }
 function openPin() {
   modal(`<h2>관리자 번호 입력</h2><p class="hint">관리자 번호를 입력해 주세요.</p>
-    <form id="pinForm"><input type="password" name="pin" inputmode="numeric" autocomplete="off" maxlength="12" class="pinbox" placeholder="••••••">
+    <form id="pinForm"><input type="password" name="pin" ${S.platform ? '' : 'inputmode="numeric" '}autocomplete="off" maxlength="40" class="pinbox" placeholder="••••••">
     <div class="pinmsg" id="pinMsg"></div>
     <div class="acts"><button type="button" class="btn" data-close>취소</button><button class="btn pri" type="submit">들어가기</button></div></form>`);
   const f = $('#pinForm'); setTimeout(() => f.pin.focus(), 30);
@@ -1455,7 +1478,7 @@ function openPin() {
     ev.preventDefault();
     const msg = $('#pinMsg'), now = Date.now();
     if (S.pinLockUntil > now) { msg.textContent = `잠시 후 다시 시도해 주세요. (${Math.ceil((S.pinLockUntil - now) / 1000)}초)`; return; }
-    let ok = false; try { ok = await checkPin(f.pin.value.trim()); } catch (x) { msg.textContent = '번호를 확인하지 못했습니다.'; return; }
+    let ok = false; try { ok = S.platform ? await S.platform.registerAdmin(f.pin.value.trim()) : await checkPin(f.pin.value.trim()); } catch (x) { msg.textContent = '번호를 확인하지 못했습니다. 인터넷 연결을 확인해 주세요.'; return; }
     if (ok) { S.pinFails = 0; closeModal(); setRole('admin'); toast('관리자 화면으로 들어왔습니다.'); return; }
     S.pinFails++; f.pin.value = ''; f.pin.focus();
     if (S.pinFails >= 5) { S.pinLockUntil = Date.now() + 30000; S.pinFails = 0; msg.textContent = '5번 틀렸습니다. 30초 뒤에 다시 시도해 주세요.'; }
@@ -1463,17 +1486,25 @@ function openPin() {
   };
 }
 function openPinChange() {
-  modal(`<h2>관리자 번호 변경</h2><p class="hint">담당자가 바뀌면 새 담당자가 번호를 바꿔 주세요. 숫자 4~10자리.</p>
+  const fb = !!S.platform;
+  modal(`<h2>관리자 번호 변경</h2><p class="hint">담당자가 바뀌면 새 담당자가 번호를 바꿔 주세요. ${fb ? '영문과 숫자를 섞어 8자리 이상. 바꾸면 다른 기기의 관리자 화면은 모두 풀립니다.' : '숫자 4~10자리.'}</p>
     <form id="pinChForm"><div class="grid" style="grid-template-columns:1fr">
-      <label class="f">현재 번호<input type="password" name="cur" inputmode="numeric" autocomplete="off"></label>
-      <label class="f">새 번호<input type="password" name="n1" inputmode="numeric" autocomplete="off"></label>
-      <label class="f">새 번호 확인<input type="password" name="n2" inputmode="numeric" autocomplete="off"></label></div>
+      <label class="f">현재 번호<input type="password" name="cur" autocomplete="off"></label>
+      <label class="f">새 번호<input type="password" name="n1" autocomplete="off"></label>
+      <label class="f">새 번호 확인<input type="password" name="n2" autocomplete="off"></label></div>
     <div class="pinmsg" id="pinMsg"></div>
     <div class="acts"><button type="button" class="btn" data-close>취소</button><button class="btn pri" type="submit">변경</button></div></form>`);
   const f = $('#pinChForm'); setTimeout(() => f.cur.focus(), 30);
   f.onsubmit = async ev => {
     ev.preventDefault();
     const msg = $('#pinMsg'), n1 = f.n1.value.trim();
+    if (fb) {
+      if (n1.length < 8) { msg.textContent = '새 번호는 8자리 이상으로 정해 주세요.'; return; }
+      if (n1 !== f.n2.value.trim()) { msg.textContent = '새 번호가 서로 다릅니다.'; return; }
+      try { const r = await S.platform.changePin(f.cur.value.trim(), n1); if (!r) { msg.textContent = '현재 번호가 맞지 않습니다.'; return; } closeModal(); toast('관리자 번호를 바꿨습니다.'); }
+      catch (x) { msg.textContent = '바꾸지 못했습니다. 잠시 후 다시 시도해 주세요.'; }
+      return;
+    }
     if (!(await checkPin(f.cur.value.trim()))) { msg.textContent = '현재 번호가 맞지 않습니다.'; return; }
     if (!/^\d{4,10}$/.test(n1)) { msg.textContent = '새 번호는 숫자 4~10자리로 정해 주세요.'; return; }
     if (n1 !== f.n2.value.trim()) { msg.textContent = '새 번호가 서로 다릅니다.'; return; }
@@ -1626,16 +1657,13 @@ document.addEventListener('click', async ev => {
   if (act === 'newExam') { openNewExam(); return; }
   if (act === 'roleTeacher') { setRole('teacher'); return; }
   if (act === 'roleAdmin') {
-    if (S.platform) { if (S.platform.isAdmin) { setRole('admin'); toast('관리자 화면으로 들어왔습니다.'); } else toast('관리자로 등록된 계정이 아닙니다. 담당자에게 등록을 요청해 주세요.', 1); return; }
+    if (S.platform) { S.platform.isPinSet().then(set => set ? openPin() : openPinInit()).catch(() => toast('저장소에 연결하지 못했습니다.', 1)); return; }
     openPin(); return;
   }
-  if (act === 'signOut') { if (S.platform) S.platform.signOut(); return; }
   if (act === 'backupOut') { closeModal(); backupOut(); return; }
   if (act === 'backupIn') { closeModal(); backupIn(); return; }
-  if (act === 'adminAdd') { adminListEdit('add'); return; }
-  if (act === 'adminDel') { adminListEdit('del', t.dataset.em); return; }
   if (act === 'switchRole') { closeModal(); setRole(null); return; }
-  if (act === 'pinChange') { if (S.platform) openAdminList(); else openPinChange(); return; }
+  if (act === 'pinChange') { closeModal(); openPinChange(); return; }
   if (act === 'selSub') { S.selSub = t.dataset.s; render(); return; }
   if (!e) return;
   if (act === 'rowDel') { const id = t.closest('tr').dataset.row; e.schedule = e.schedule.filter(s => s.id !== id); queueSave(e); render(); }
@@ -1718,30 +1746,6 @@ function backupIn() {
     });
   };
   inp.click();
-}
-/* ===================== 관리자 계정 (로그인 버전) ===================== */
-async function openAdminList() {
-  const P = S.platform; let list = [];
-  try { list = await P.getAdmins(); } catch (x) {}
-  S.adminList = list;
-  modal(`<h2>관리자 계정</h2><p class="hint">여기 등록된 구글 계정만 시험 일정을 만들고 고칠 수 있습니다. 담당자가 바뀌면 새 담당자의 이메일을 추가하세요.</p>
-    <div class="sheetlist">${P.ownerEmail ? `<button disabled>${ic('lock')}${esc(P.ownerEmail)} <span class="m">처음 설정한 관리자</span></button>` : ''}${list.map(em => `<button data-act="adminDel" data-em="${esc(em)}">${ic('users')}${esc(em)} <span class="m">눌러서 삭제</span></button>`).join('')}</div>
-    <div class="row" style="margin-top:12px"><input type="text" id="adminNew" placeholder="새 관리자 이메일 (예: teacher@gmail.com)" style="flex:1"><button class="btn pri" data-act="adminAdd">추가</button></div>
-    <div class="pinmsg" id="pinMsg"></div><div class="acts"><button class="btn" data-close>닫기</button></div>`);
-}
-async function adminListEdit(kind, em) {
-  const P = S.platform, msg = $('#pinMsg');
-  let list = (S.adminList || []).slice();
-  if (kind === 'add') {
-    const v = ($('#adminNew').value || '').trim().toLowerCase();
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)) { msg.textContent = '이메일 주소를 확인해 주세요.'; return; }
-    if (!list.includes(v)) list.push(v);
-  } else {
-    if (em === P.email && !(P.ownerEmail && P.ownerEmail === P.email)) { msg.textContent = '지금 로그인한 계정은 스스로 지울 수 없습니다.'; return; }
-    list = list.filter(x => x !== em);
-  }
-  try { await P.setAdmins(list); toast('관리자 계정을 저장했습니다.'); openAdminList(); }
-  catch (x) { msg.textContent = '저장하지 못했습니다. 관리자 계정으로 로그인했는지 확인해 주세요.'; }
 }
 async function saveHwpx(name, B, pg) {
   let bytes;
@@ -1887,14 +1891,15 @@ function subscribeRanges() {
 async function init() {
   let db = null, user = null, dl = null;
   try { [db, user, dl] = await Promise.all([claude.use('db'), claude.use('user'), claude.use('downloads')]); } catch (x) {}
-  if (typeof window.claude === 'undefined') { db = localDb(); dl = anchorDownloads; S.standalone = true; }
+  if (window.GOSA_STANDALONE || typeof window.claude === 'undefined') { db = localDb(); dl = anchorDownloads; S.standalone = true; }
   S.db = db; S.user = user; S.dl = dl; S.platform = window.GOSA_PLATFORM || null;
-  if (S.platform && !S.platform.isAdmin) { S.role = 'teacher'; S.tab = 'range'; }
+  // Firebase 버전: 이 기기가 관리자로 남아 있는지 서버 기준으로 다시 확인 (번호가 바뀌었으면 풀림)
+  if (S.platform && S.role === 'admin') { let ok = false; try { ok = await S.platform.amAdmin(); } catch (x) {} if (!ok) { S.role = null; try { sessionStorage.setItem('gosa.role', ''); } catch (x) {} } }
   if (user) {
     try { S.uid = await user.id(); } catch (x) {}
   }
   if (!db) { S.mode = 'local'; render(); return; }
-  db.doc('settings/admin').onSnapshot(snap => { S.adminCfg = snap.exists ? snap.data() : null; }, () => {});
+  if (!S.platform) db.doc('settings/admin').onSnapshot(snap => { S.adminCfg = snap.exists ? snap.data() : null; }, () => {});
   S.mode = 'loading'; render();
   S.loadTimer = setTimeout(() => { S.stale = true; if (S.mode === 'loading') S.mode = 'ready'; render(); }, 10000);
   db.collection('exams').onSnapshot(snap => {

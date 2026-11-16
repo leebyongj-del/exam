@@ -1,0 +1,71 @@
+rules_version = '2';
+// 고사 운영 도우미 — Firestore 보안 규칙
+// Firebase 콘솔 → Firestore Database → 규칙 탭에 이 파일 전체를 붙여 넣고 '게시'를 누르세요.
+//
+// - 과목 선생님: 링크로 접속(익명 로그인)하면 시험범위를 입력할 수 있음. 입력이 마감된 고사는 불가
+// - 관리자: 관리자 번호를 맞힌 기기만 고사(일정·시간표)를 만들고 고치고 지울 수 있음
+// - 관리자 번호는 secret/admin에 해시로만 저장되고, 누구도 읽을 수 없음
+// - 번호를 바꾸면(v가 올라가면) 이전 번호로 관리자가 되었던 기기는 모두 관리자 권한이 풀림
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function secPath() { return /databases/$(database)/documents/secret/admin; }
+    function pubPath() { return /databases/$(database)/documents/settings/public; }
+    function mePath() { return /databases/$(database)/documents/adminUids/$(request.auth.uid); }
+    function examPath(id) { return /databases/$(database)/documents/exams/$(id); }
+    function isAdmin() {
+      return signedIn() && exists(secPath()) && exists(mePath())
+        && get(mePath()).data.v == get(secPath()).data.v
+        && get(mePath()).data.pin == get(secPath()).data.pin;
+    }
+    function goodHash(d) { return d.pin is string && d.pin.size() == 64 && d.v is int; }
+
+    // 관리자 번호(해시). 아무도 읽을 수 없음. 처음 한 번 만들기 / 관리자만 바꾸기
+    match /secret/admin {
+      allow read: if false;
+      allow create: if signedIn() && !exists(secPath()) && goodHash(request.resource.data)
+        && request.resource.data.v == 1 && getAfter(pubPath()).data.v == 1;
+      allow update: if isAdmin() && goodHash(request.resource.data)
+        && request.resource.data.v == resource.data.v + 1
+        && getAfter(pubPath()).data.v == request.resource.data.v;
+      allow delete: if false;
+    }
+
+    // 관리자 번호가 정해졌는지, 몇 번째 번호인지(v)만 공개
+    match /settings/public {
+      allow read: if signedIn();
+      allow create, update: if signedIn() && (!exists(secPath()) || isAdmin())
+        && existsAfter(secPath())
+        && request.resource.data.pinSet == true
+        && request.resource.data.v == getAfter(secPath()).data.v;
+      allow delete: if false;
+    }
+
+    // 관리자 번호를 맞힌 기기 목록. 번호 해시가 맞아야만 저장됨. 본인 것만 읽기
+    match /adminUids/{uid} {
+      allow read, delete: if signedIn() && request.auth.uid == uid;
+      allow create, update: if signedIn() && request.auth.uid == uid && existsAfter(secPath())
+        && request.resource.data.pin == getAfter(secPath()).data.pin
+        && request.resource.data.v == getAfter(secPath()).data.v;
+    }
+
+    // 고사(일정·시간표·설정): 누구나 읽기, 관리자만 저장·삭제
+    match /exams/{id} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+
+    // 시험범위: 누구나 읽기. 입력 마감 전에는 누구나 입력, 마감 후와 삭제는 관리자만
+    match /ranges/{id} {
+      allow read: if signedIn();
+      allow delete: if isAdmin();
+      allow create, update: if isAdmin() || (
+        signedIn()
+        && request.resource.data.keys().hasOnly(['examId', 'subject', 'text', 'teacher', 'updatedAt', 'by'])
+        && request.resource.data.examId is string
+        && exists(examPath(request.resource.data.examId))
+        && get(examPath(request.resource.data.examId)).data.rangeLocked != true
+      );
+    }
+  }
+}
