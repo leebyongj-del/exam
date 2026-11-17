@@ -80,7 +80,8 @@ main{padding:24px 28px 80px;max-width:1180px;margin:0 auto;min-width:0}
 .tv-head h1{margin:0;font-size:24px;font-weight:700;line-height:1.3}
 .tv-head p{margin:6px 0 0;color:var(--ink2)}
 .tv-head .late{color:var(--warn);font-weight:600}
-.seg{display:inline-flex;border:1px solid var(--field);border-radius:var(--r2);overflow:hidden;background:#fff;margin:16px 0 22px}
+.seg{display:inline-flex;border:1px solid var(--field);border-radius:var(--r2);overflow:hidden;background:#fff;margin:0 0 16px}
+.tv .seg{margin:16px 0 22px}
 .seg button{border:none;background:none;padding:8px 16px;font-weight:600;color:var(--ink2)}
 .seg button + button{border-left:1px solid var(--field)}
 .seg button[aria-pressed=true]{background:var(--ink);color:#fff}
@@ -123,7 +124,7 @@ main{padding:24px 28px 80px;max-width:1180px;margin:0 auto;min-width:0}
 .btn.ghost{border-color:transparent;background:none}
 .btn:disabled{opacity:.45;cursor:default}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px 16px}
-label.f{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--ink2);font-weight:600}
+label.f,div.f{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--ink2);font-weight:600}
 label.f.wide{grid-column:1/-1}
 input[type=text],input[type=date],input[type=number],input[type=password],select,textarea{border:1px solid var(--field);background:#fff;border-radius:var(--r2);padding:8px 10px;width:100%;min-width:0}
 textarea{resize:vertical;min-height:74px;line-height:1.6}
@@ -139,13 +140,21 @@ table.ed input,table.ed select{padding:6px 8px}
 table.ed tr.auto td{background:var(--tint2);color:var(--ink2)}
 .wd{font-size:11.5px;color:var(--mute);white-space:nowrap}
 .scroll{overflow-x:auto}
-.tt{border-collapse:separate;border-spacing:6px;font-size:13.5px;min-width:100%;margin:-6px}
-.tt th{font-weight:600;font-size:13px;color:var(--ink2);padding:4px}
-.tt td{padding:0}
-.tt td input{text-align:center;min-width:80px;background:var(--tint);border:1px solid var(--tintb);padding:10px 6px;font-weight:600;font-size:15px;color:var(--spot-d)}
-.tt td input:placeholder-shown{background:#fff;border:1.5px dashed var(--field)}
-.tt .dhead{display:flex;flex-direction:column;gap:3px;align-items:center}
-.tt .dhead input{width:150px}
+table.sched .c-sum{display:none}
+table.sched .c-act{white-space:nowrap}
+.days{display:flex;flex-wrap:wrap;gap:20px 24px}
+.day{flex:1 1 calc(44px + var(--p) * 86px);max-width:calc(60px + var(--p) * 150px);min-width:0}
+.day-h{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.day-h b{font-weight:700;white-space:nowrap}
+.day-h input{width:auto;flex:0 1 170px}
+.day-g{display:grid;grid-template-columns:44px repeat(var(--p),minmax(0,1fr));gap:6px;align-items:center}
+.day-g .ph{text-align:center;font-size:12.5px;font-weight:600;color:var(--mute)}
+.day-g .gl{font-size:13px;font-weight:600;color:var(--ink2)}
+.day-g input{text-align:center;background:var(--tint);border:1px solid var(--tintb);padding:10px 4px;font-weight:600;font-size:15px;color:var(--spot-d)}
+.day-g input:placeholder-shown{background:#fff;border:1.5px dashed var(--field)}
+h3.grp{margin:22px 0 10px;padding-top:16px;border-top:1px solid var(--line2);font-size:15px;font-weight:700;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.card-h + h3.grp{margin-top:0;padding-top:0;border-top:none}
+h3.grp small{font-size:12.5px;font-weight:500;color:var(--mute)}
 .pill{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;padding:2px 8px;border-radius:4px;font-weight:600;white-space:nowrap}
 .pill.ok{background:var(--okbg);color:var(--ok)}
 .pill.no{background:var(--badbg);color:var(--bad)}
@@ -154,6 +163,7 @@ table.ed tr.auto td{background:var(--tint2);color:var(--ink2)}
 .prog{height:8px;background:var(--line2);border-radius:4px;overflow:hidden;margin:8px 0 2px}
 .prog > i{display:block;height:100%;background:var(--ink);transition:width .3s}
 .split{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:16px;align-items:start}
+.split.doc{grid-template-columns:minmax(0,380px) minmax(0,1fr)}
 .status td,.status th{padding:10px 6px}
 .status tr.sel td{background:var(--tint)}
 .status tr{cursor:pointer}
@@ -177,6 +187,8 @@ table.ed tr.auto td{background:var(--tint2);color:var(--ink2)}
 .subtabs button{border:1px solid var(--line);background:#fff;padding:7px 14px;font-weight:600;color:var(--ink2);border-radius:var(--r2)}
 .subtabs button.on{color:#fff;background:var(--ink);border-color:var(--ink)}
 .sheetwrap{background:#dde2e9;border-radius:var(--r);padding:22px;overflow-x:auto}
+.zoomtg{display:block;margin:0 0 10px auto}
+.zoomtg[hidden]{display:none}
 .sheet{background:#fff;width:794px;min-width:794px;margin:0 auto;box-shadow:0 1px 6px rgba(22,25,30,.16);color:#000;font-family:'함초롬돋움','HCR Dotum','Noto Sans KR',sans-serif;overflow-x:auto;letter-spacing:0}
 .sheet .pb{border-top:1px dashed #bbb;margin:30px -60px;position:relative}
 .sheet .pb::after{content:"쪽 나눔";position:absolute;right:10px;top:-9px;background:#fff;padding:0 6px;font-size:11px;color:#777}
@@ -198,6 +210,7 @@ table.ed tr.auto td{background:var(--tint2);color:var(--ink2)}
 .menulist button:hover{background:var(--tint2)}
 .menulist button:focus-visible{outline-offset:-3px}
 .menulist .m{display:block;font-size:12.5px;color:var(--mute);font-weight:400}
+.menulist .danger{color:var(--bad)}
 .pinbox{font-size:26px;letter-spacing:10px;text-align:center;padding:12px}
 .pinmsg{min-height:20px;color:var(--bad);font-size:13px;margin-top:8px}
 
@@ -213,9 +226,49 @@ table.ed tr.auto td{background:var(--tint2);color:var(--ink2)}
   .step .l-short{display:inline}
   .step .ss{grid-column:1 / -1;font-size:12px}
   main{padding:16px 14px 60px}
-  .split{grid-template-columns:1fr}
-  .modal-bg{place-items:end center;padding:0}
-  .modal{border-radius:16px 16px 0 0;width:100%;padding:20px 16px calc(20px + env(safe-area-inset-bottom))}
+  main input,main select,main textarea{font-size:16px}
+  .split,.split.doc{grid-template-columns:1fr}
+  .card{padding:0 14px 16px}
+  .card-h{margin:0 -14px 14px;padding:12px 14px}
+  .sheetwrap{padding:10px}
+  .day-g input{padding:11px 2px}
+  table.sched,table.sched tbody{display:block}
+  table.sched tr.head{display:none}
+  table.sched tr[data-row]{display:block;border-bottom:1px solid var(--line2)}
+  table.sched td{display:none;padding:0;border:none;min-width:0}
+  table.sched td.c-sum{display:block}
+  .sumbtn{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1px 10px;align-items:center;width:100%;text-align:left;background:none;border:none;padding:11px 0;color:var(--ink)}
+  .sumbtn .s-when{font-size:13px;color:var(--ink2);font-variant-numeric:tabular-nums}
+  .sumbtn .s-when.none{color:var(--warn);font-weight:600}
+  .sumbtn .s-ph{font-size:12.5px;color:var(--mute)}
+  .sumbtn .s-task{font-size:16px;font-weight:600;line-height:1.4}
+  .sumbtn .s-own{grid-column:1;font-size:13px;color:var(--mute)}
+  .sumbtn .s-own:empty{display:none}
+  .sumbtn .s-x{display:none;grid-column:1;font-size:13.5px;font-weight:600;color:var(--ink2)}
+  .sumbtn svg.i{grid-column:2;grid-row:2;justify-self:end;width:18px;height:18px;color:var(--mute)}
+  .sumbtn:focus-visible{outline-offset:-2px}
+  table.sched tr.open{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"sum sum" "task task" "d1 d2" "owner note" "phase act";gap:10px;margin:8px 0;padding:0 12px 14px;background:var(--tint2);border:1px solid var(--line);border-radius:var(--r2)}
+  table.sched tr.open td{display:block}
+  table.sched tr.open td[data-l]::before{content:attr(data-l);display:block;margin-bottom:3px;font-size:12.5px;font-weight:600;color:var(--mute)}
+  table.sched tr.open .c-sum{grid-area:sum}
+  table.sched tr.open .sumbtn{padding:10px 0 0}
+  table.sched tr.open .sumbtn span{display:none}
+  table.sched tr.open .sumbtn .s-x{display:block}
+  table.sched tr.open .sumbtn svg.i{grid-row:1;transform:rotate(180deg)}
+  table.sched .c-task{grid-area:task}
+  table.sched .c-task input{font-weight:600}
+  table.sched .c-d1{grid-area:d1}
+  table.sched .c-d2{grid-area:d2}
+  table.sched .c-owner{grid-area:owner}
+  table.sched .c-note{grid-area:note}
+  table.sched .c-phase{grid-area:phase}
+  table.sched tr.open .c-act{grid-area:act;display:flex;justify-content:flex-end;align-items:flex-end;gap:6px}
+  table.sched .c-act .btn{min-width:44px;min-height:44px;background:#fff;border-color:var(--line)}
+  table.sched tr.auto{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"phase d1 act" "task task task";gap:2px 10px;padding:10px 12px;margin:8px 0;background:var(--tint);border-radius:var(--r2)}
+  table.sched tr.auto td{display:block;background:none}
+  table.sched tr.auto .c-phase,table.sched tr.auto .c-d1{font-weight:600;color:var(--ink)}
+  table.sched tr.auto .c-task{font-size:13px;color:var(--ink2)}
+  table.sched tr.auto .c-act{grid-area:act;color:var(--mute)}
 }
 @media (max-width:600px){
   .tb-name small{display:none}
@@ -1270,7 +1323,7 @@ const anchorDownloads = { save: async ({ filename, data }) => {
 /* ===================== 앱 상태 ===================== */
 const S = {
   db: null, user: null, dl: null, uid: null, role: 'teacher', adminCfg: null, pinFails: 0, pinLockUntil: 0, mode: 'loading',
-  exams: [], examId: null, ranges: {}, rangesReady: true, tab: 'range', docTab: 'plan', selSub: null, mySub: null, draft: null, teacherName: '', saveText: '',
+  exams: [], examId: null, ranges: {}, rangesReady: true, tab: 'range', infoTab: 'tt', schedOpen: null, docTab: 'plan', sheetFull: false, selSub: null, mySub: null, draft: null, teacherName: '', saveText: '',
   loadTimer: null, rangeTimer: null, stale: false, unsubRanges: null, dirty: new Set(), saving: new Set(), needsRender: false, autoStep: false,
 };
 const admin = () => S.role === 'admin';
@@ -1344,6 +1397,8 @@ const ICONS = {
   down: '<path d="M12 4v11M7.5 10.5L12 15l4.5-4.5M5 20h14"/>',
   up: '<path d="M12 15V4M7.5 8.5L12 4l4.5 4.5M5 20h14"/>',
   out: '<path d="M14 4h4a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1h-4M10 8l-4 4 4 4M6 12h9"/>',
+  chev: '<path d="M6 9l6 6 6-6"/>',
+  trash: '<path d="M4.5 7h15M9.5 7V4.5h5V7M6.5 7l.8 12.5h9.4L17.5 7M10 11v5M14 11v5"/>',
 };
 const ic = n => `<svg class="i" viewBox="0 0 24 24" aria-hidden="true">${ICONS[n] || ''}</svg>`;
 
@@ -1411,12 +1466,14 @@ function renderSteps() {
   }).join('')}</div>`;
 }
 function openMenu() {
+  const e = curExam();
   modal(`<h2>관리 메뉴</h2><div class="menulist">
     <button data-act="newExam">${ic('plus')}<span>새 고사 만들기</span></button>
     <button data-act="pinChange">${ic('lock')}<span>관리자 번호 변경</span></button>
     <button data-act="backupOut">${ic('down')}<span>백업 내보내기<span class="m">모든 고사와 시험범위를 .json 파일로 저장합니다</span></span></button>
     <button data-act="backupIn">${ic('up')}<span>백업 가져오기</span></button>
-    <button data-act="leaveAdmin">${ic('out')}<span>관리자 나가기<span class="m">과목 선생님 화면으로 돌아갑니다</span></span></button></div>
+    <button data-act="leaveAdmin">${ic('out')}<span>관리자 나가기<span class="m">과목 선생님 화면으로 돌아갑니다</span></span></button>
+    ${e ? `<button class="danger" data-act="delExam">${ic('trash')}<span>이 고사 삭제<span class="m">${esc(examTitle(e))}의 일정·시간표·시험범위를 모두 지웁니다</span></span></button>` : ''}</div>
     <div class="acts"><button class="btn" data-close>닫기</button></div>`);
 }
 
@@ -1441,10 +1498,21 @@ function renderMain() {
   const m = $('#main');
   if (!dataReady()) { m.innerHTML = `<div class="empty"><div class="big">불러오는 중…</div></div>`; return; }
   const e = curExam();
-  if (!admin()) { if (S.tab !== 'doc') S.tab = 'range'; m.innerHTML = viewTeacher(e); return; }
+  if (!admin()) { if (S.tab !== 'doc') S.tab = 'range'; m.innerHTML = viewTeacher(e); fitSheets(); return; }
   if (!e) { m.innerHTML = `<div class="empty"><div class="big">첫 고사를 등록해 보세요</div><p>시험 시작일만 넣으면 범위 수합부터 성적통지표 배부까지 일정이 자동으로 채워집니다.</p><button class="btn pri" data-act="newExam">새 고사 만들기</button></div>`; return; }
   m.innerHTML = S.tab === 'info' ? viewInfo(e) : S.tab === 'range' ? viewRange(e, rangeStatus(e, S.ranges)) : S.tab === 'doc' ? viewDoc(e, checkExam(e, S.ranges)) : viewCommittee(e);
+  fitSheets();
 }
+// 문서 미리보기는 A4 폭(794px) 고정. 칸이 그보다 좁으면 줄여서 한눈에 보이게 하고, 버튼으로 실제 크기와 오감
+function fitSheets() {
+  document.querySelectorAll('.sheetwrap').forEach(w => {
+    const s = w.querySelector('.sheet'), b = w.querySelector('.zoomtg'); if (!s) return;
+    const cs = getComputedStyle(w), f = (w.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight)) / 794;
+    s.style.zoom = f < 1 && !S.sheetFull ? f : '';
+    if (b) b.hidden = f >= 1;
+  });
+}
+window.addEventListener('resize', fitSheets);
 
 /* ---------- 제출 전 입력 내용 보관 ----------
  다른 선생님의 저장 등으로 화면이 다시 그려져도 쓰던 글이 지워지지 않게 함 */
@@ -1569,59 +1637,71 @@ function openPinChange() {
   };
 }
 
-/* ---------- ① 시험 일정 ---------- */
+/* ---------- ① 시험 일정: 시간표 / 일정표 / 문서 문구 ---------- */
+const INFO_TABS = [['tt', '시간표'], ['sched', '일정표'], ['text', '문서 문구']];
 function viewInfo(e) {
-  const f = (k, label, cls = '') => `<label class="f ${cls}">${label}<input type="text" data-f="${k}" value="${esc(e[k] || '')}"></label>`;
+  if (!INFO_TABS.some(([k]) => k === S.infoTab)) S.infoTab = 'tt';
+  return `<div class="seg" role="group" aria-label="시험 일정 구역">${INFO_TABS.map(([k, l]) => `<button data-act="infoTab" data-k="${k}" aria-pressed="${S.infoTab === k}">${l}</button>`).join('')}</div>`
+    + (S.infoTab === 'sched' ? infoSched(e) : S.infoTab === 'text' ? infoText(e) : infoTimetable(e));
+}
+// 시간표: 날짜별 블록. 넓은 화면에서는 옆으로, 좁은 화면에서는 아래로 쌓임
+function infoTimetable(e) {
+  const P = e.periodsPerDay || 2, gs = (e.grades || []).map(String), days = e.days || [];
+  const per = Array.from({ length: P }, (_, j) => j);
   const gchk = [1, 2, 3].map(g => `<label><input type="checkbox" data-act="grade" value="${g}"${(e.grades || []).map(Number).includes(g) ? ' checked' : ''}>${g}학년</label>`).join('');
-  const sched = e.schedule || [];
-  const rowH = s => `<tr data-row="${s.id}">
-    <td><select data-k="phase">${['고사 전', '시험당일', '고사 후'].map(p => `<option${s.phase === p ? ' selected' : ''}>${p}</option>`).join('')}</select></td>
-    <td><input type="date" data-k="d1" value="${esc(s.d1)}"><div class="wd">${s.d1 ? wdOf(s.d1) + '요일' : ''}</div></td>
-    <td><input type="date" data-k="d2" value="${esc(s.d2)}" title="기간이면 종료일"><div class="wd">${s.d2 ? '~ ' + wdOf(s.d2) + '요일' : ''}</div></td>
-    <td><input type="text" data-k="task" value="${esc(s.task)}"></td>
-    <td><input type="text" data-k="owner" value="${esc(s.owner)}"></td>
-    <td><input type="text" data-k="note" value="${esc(s.note)}"></td>
-    <td style="white-space:nowrap"><button class="btn sm ghost" data-act="rowUp" title="위로">↑</button><button class="btn sm ghost red" data-act="rowDel" title="삭제">✕</button></td></tr>`;
-  const byPh = p => sched.filter(s => s.phase === p).map(rowH).join('');
-  const examRows = (e.days || []).map(d => `<tr class="auto"><td>시험일</td><td colspan="2">${esc(dShort(d.date))}</td><td colspan="3">${esc(periodLine(e, d))}</td><td class="small">자동</td></tr>`).join('');
-  const P = e.periodsPerDay || 2, gs = (e.grades || []).map(String);
   const subjList = ['국어', '도덕', '사회', '역사', '수학', '과학', '영어', '기술·가정', '정보', '한문', '자습'];
-  let tt = `<table class="tt"><tr><th rowspan="2">구분</th>${(e.days || []).map((d, i) => `<th colspan="${P}"><div class="dhead"><input type="date" data-day="${i}" data-dk="date" value="${esc(d.date)}"><span class="wd">${d.date ? wdOf(d.date) + '요일' : ''}</span></div></th>`).join('')}</tr><tr>`;
-  (e.days || []).forEach(() => { for (let j = 0; j < P; j++) tt += `<th>${j + 1}교시</th>`; });
-  tt += '</tr>';
-  gs.forEach(g => {
-    tt += `<tr><th>${g}학년</th>`;
-    (e.days || []).forEach((d, i) => { for (let j = 0; j < P; j++) tt += `<td><input type="text" list="subjList" data-day="${i}" data-per="${j}" data-g="${g}" value="${esc(((d.periods || [])[j] || {})[g] || '')}"></td>`; });
-    tt += '</tr>';
-  });
-  tt += `</table><datalist id="subjList">${subjList.map(s => `<option value="${s}">`).join('')}</datalist>`;
+  const day = (d, i) => `<section class="day"><div class="day-h"><b>${i + 1}일차</b><input type="date" data-day="${i}" data-dk="date" value="${esc(d.date)}" aria-label="${i + 1}일차 날짜"><span class="wd">${d.date ? wdOf(d.date) + '요일' : ''}</span></div>
+      <div class="day-g"><span></span>${per.map(j => `<span class="ph">${j + 1}교시</span>`).join('')}
+      ${gs.map(g => `<span class="gl">${g}학년</span>${per.map(j => `<input type="text" list="subjList" placeholder=" " data-day="${i}" data-per="${j}" data-g="${g}" aria-label="${i + 1}일차 ${j + 1}교시 ${g}학년 과목" value="${esc(((d.periods || [])[j] || {})[g] || '')}">`).join('')}`).join('')}</div></section>`;
   return `
-  <div class="card"><div class="card-h"><div><h2>기본 정보</h2><p class="hint">문서의 제목과 ‘시행 계획’ 항목에 그대로 들어갑니다.</p></div>
-    <button class="btn red sm" data-act="delExam">이 고사 삭제</button></div>
+  <div class="card"><div class="card-h"><div><h2>고사 기본</h2><p class="hint">문서 제목에 그대로 들어갑니다.</p></div></div>
     <div class="grid">
       <label class="f">학년도<input type="number" data-f="year" value="${esc(e.year)}"></label>
       <label class="f">학기<select data-f="semester">${[1, 2].map(x => `<option value="${x}"${+e.semester === x ? ' selected' : ''}>${x}학기</option>`).join('')}</select></label>
       <label class="f">구분<select data-f="kind">${['중간', '기말'].map(x => `<option${e.kind === x ? ' selected' : ''}>${x}</option>`).join('')}</select></label>
-      <label class="f">대상 학년<div class="chk">${gchk}</div></label>
-      ${f('room', '3. 고사장')}${f('hq', '4. 고사본부')}${f('supervision', '5. 시험감독')}
-      ${f('briefing', '시험일 감독관 연수')}${f('briefingOwner', '감독관 연수 담당')}${f('examTime', '시험 시간')}${f('examNote', '시험일 비고')}
-      ${f('submitTo', '출제지 원안 제출처 (예: 교무부(마훈))')}
-      ${f('notice', '출제 안내 문구 (제출서류 문서 첫머리)', 'wide')}
+      <div class="f">대상 학년<div class="chk">${gchk}</div></div>
     </div></div>
 
-  <div class="card"><div class="card-h"><div><h2>고사 시간표</h2><p class="hint">여기 입력한 과목이 ‘시험범위 수합’ 목록과 일정표의 시험일 행에 자동으로 들어갑니다. 시험이 없는 칸은 ‘자습’으로 입력하세요.</p></div>
-    <div class="row"><label class="f" style="flex-direction:row;align-items:center;gap:6px">하루<select data-f="periodsPerDay" style="width:auto">${[1, 2, 3, 4].map(x => `<option value="${x}"${(e.periodsPerDay || 2) === x ? ' selected' : ''}>${x}</option>`).join('')}</select>교시</label>
-    <button class="btn sm" data-act="dayAdd">＋ 시험일</button><button class="btn sm" data-act="dayDel"${(e.days || []).length <= 1 ? ' disabled' : ''}>－ 마지막 날</button></div></div>
-    <div class="scroll">${tt}</div></div>
-
+  <div class="card"><div class="card-h"><div><h2>고사 시간표</h2><p class="hint">여기 입력한 과목이 ② 범위 수합 목록과 일정표의 시험일 행에 자동으로 들어갑니다. 시험이 없는 칸은 ‘자습’으로 입력하세요.</p></div>
+    <div class="row"><label class="f" style="flex-direction:row;align-items:center;gap:6px">하루<select data-f="periodsPerDay" style="width:auto">${[1, 2, 3, 4].map(x => `<option value="${x}"${P === x ? ' selected' : ''}>${x}</option>`).join('')}</select>교시</label>
+    <button class="btn sm" data-act="dayAdd">시험일 추가</button><button class="btn sm" data-act="dayDel"${days.length <= 1 ? ' disabled' : ''}>마지막 날 빼기</button></div></div>
+    <div class="days" style="--p:${P}">${days.map(day).join('')}</div><datalist id="subjList">${subjList.map(s => `<option value="${s}">`).join('')}</datalist></div>`;
+}
+// 일정표: 넓은 화면은 표, 좁은 화면은 행 하나가 카드 하나 (같은 마크업, CSS로 전환)
+function infoSched(e) {
+  const sched = e.schedule || [];
+  const when = s => s.d1 ? dRange(s.d1, s.d2) : (s.phase === '시험당일' ? '시험 기간 중' : '날짜 없음');
+  const rowH = s => `<tr data-row="${s.id}"${S.schedOpen === s.id ? ' class="open"' : ''}>
+    <td class="c-sum"><button type="button" class="sumbtn" data-act="schedOpen" aria-expanded="${S.schedOpen === s.id}"><span class="s-when${s.d1 || s.phase === '시험당일' ? '' : ' none'}">${esc(when(s))}</span><span class="s-ph">${esc(s.phase)}</span><span class="s-task">${esc(s.task || '(업무명 없음)')}</span><span class="s-own">${esc(s.owner || '')}</span><span class="s-x">접기</span>${ic('chev')}</button></td>
+    <td class="c-phase" data-l="단계"><select data-k="phase" aria-label="단계">${['고사 전', '시험당일', '고사 후'].map(p => `<option${s.phase === p ? ' selected' : ''}>${p}</option>`).join('')}</select></td>
+    <td class="c-d1" data-l="날짜"><input type="date" data-k="d1" value="${esc(s.d1)}" aria-label="날짜"><div class="wd">${s.d1 ? wdOf(s.d1) + '요일' : ''}</div></td>
+    <td class="c-d2" data-l="종료일 (기간일 때)"><input type="date" data-k="d2" value="${esc(s.d2)}" aria-label="종료일"><div class="wd">${s.d2 ? '~ ' + wdOf(s.d2) + '요일' : ''}</div></td>
+    <td class="c-task" data-l="업무"><input type="text" data-k="task" value="${esc(s.task)}" aria-label="업무"></td>
+    <td class="c-owner" data-l="담당"><input type="text" data-k="owner" value="${esc(s.owner)}" aria-label="담당"></td>
+    <td class="c-note" data-l="비고"><input type="text" data-k="note" value="${esc(s.note)}" aria-label="비고"></td>
+    <td class="c-act"><button class="btn sm ghost" data-act="rowUp" title="위로 옮기기" aria-label="위로 옮기기">↑</button><button class="btn sm ghost red" data-act="rowDel" title="삭제" aria-label="이 업무 삭제">✕</button></td></tr>`;
+  const byPh = p => sched.filter(s => s.phase === p).map(rowH).join('');
+  const examRows = (e.days || []).map(d => `<tr class="auto"><td class="c-phase">시험일</td><td class="c-d1" colspan="2">${esc(dShort(d.date))}</td><td class="c-task" colspan="3">${esc(periodLine(e, d))}</td><td class="c-act small">자동</td></tr>`).join('');
+  return `
   <div class="card"><div class="card-h"><div><h2>일정 및 세부 계획</h2><p class="hint">요일은 날짜에서 자동으로 계산됩니다. 같은 날짜의 행은 문서에서 한 칸으로 합쳐지고, 이의신청 ‘○일간’은 등교일 기준으로 자동 계산됩니다. 공휴일·재량휴업일은 직접 확인해 주세요.</p></div>
     <button class="btn sm" data-act="regen">시험 시작일 기준으로 다시 계산</button></div>
-    <div class="scroll"><table class="ed"><tr><th style="width:96px">단계</th><th style="width:132px">날짜</th><th style="width:132px">종료일(기간)</th><th>업무</th><th style="width:170px">담당</th><th style="width:100px">비고</th><th style="width:66px"></th></tr>
+    <div class="scroll"><table class="ed sched"><tr class="head"><th style="width:96px">단계</th><th style="width:132px">날짜</th><th style="width:132px">종료일(기간)</th><th>업무</th><th style="width:170px">담당</th><th style="width:100px">비고</th><th style="width:66px"></th></tr>
     ${byPh('고사 전')}${examRows}${byPh('시험당일')}${byPh('고사 후')}</table></div>
-    <div class="row" style="margin-top:10px"><button class="btn sm" data-act="rowAdd" data-ph="고사 전">＋ 고사 전 업무</button><button class="btn sm" data-act="rowAdd" data-ph="고사 후">＋ 고사 후 업무</button></div></div>
-
-  <div class="card"><div class="card-h"><div><h2>교직원 연수 자료 목록</h2><p class="hint">첫 줄 ‘제출서류 및 유의사항’은 자동으로 붙습니다. {Y}는 학년도로 바뀝니다.</p></div></div>
-    <textarea data-f="training" style="min-height:64px">${esc((e.training || []).join('\n'))}</textarea></div>`;
+    <div class="row" style="margin-top:12px"><button class="btn sm" data-act="rowAdd" data-ph="고사 전">고사 전 업무 추가</button><button class="btn sm" data-act="rowAdd" data-ph="고사 후">고사 후 업무 추가</button></div></div>`;
+}
+// 문서 문구: 어느 문서의 어느 자리에 들어가는지에 따라 묶음
+function infoText(e) {
+  const f = (k, label, ph = '', cls = '') => `<label class="f ${cls}">${label}<input type="text" data-f="${k}" value="${esc(e[k] || '')}"${ph ? ` placeholder="${ph}"` : ''}></label>`;
+  return `
+  <div class="card"><div class="card-h"><div><h2>문서에 들어가는 문구</h2><p class="hint">지난 고사의 내용을 이어받습니다. 바뀐 곳만 고치세요.</p></div></div>
+    <h3 class="grp">시행 계획<small>운영 방안 문서</small></h3>
+    <div class="grid">${f('room', '3. 고사장')}${f('hq', '4. 고사본부')}${f('supervision', '5. 시험감독')}</div>
+    <h3 class="grp">일정표의 시험일 행<small>운영 방안 문서</small></h3>
+    <div class="grid">${f('briefing', '감독관 연수')}${f('briefingOwner', '감독관 연수 담당')}${f('examTime', '시험 시간')}${f('examNote', '비고')}</div>
+    <h3 class="grp">제출 안내<small>제출서류 및 유의사항 문서</small></h3>
+    <div class="grid">${f('submitTo', '출제지 원안 제출처', '예) 교무부(담당 선생님 이름)')}${f('notice', '출제 안내 문구 (문서 첫머리)', '', 'wide')}</div>
+    <h3 class="grp">교직원 연수 자료 목록</h3>
+    <label class="f">한 줄에 하나씩 적습니다. 첫 줄 ‘제출서류 및 유의사항’은 자동으로 붙고, {Y}는 학년도로 바뀝니다.<textarea data-f="training" style="min-height:64px">${esc((e.training || []).join('\n'))}</textarea></label></div>`;
 }
 
 /* ---------- ② 시험범위 수합 ---------- */
@@ -1676,7 +1756,7 @@ function viewDoc(e, chk) {
     <div class="row">${S.dl ? `<button class="btn pri" data-act="dlHwpx">한글 파일(.hwpx) 받기</button><button class="btn" data-act="dlDocx">워드(.docx)</button><button class="btn" data-act="dlHtml">HTML</button>` : ''}<button class="btn" data-act="copyDoc">표 복사</button></div></div>
     <div class="subtabs">${tabs.map(([k, l]) => `<button class="${S.docTab === k ? 'on' : ''}" data-act="docTab" data-k="${k}">${l}</button>`).join('')}</div>
     ${ck}</div>
-    <div class="sheetwrap"><div class="sheet" id="sheet" style="${sheetStyle(pg)}">${blocksToHTML(B, pg)}</div></div>`;
+    <div class="sheetwrap"><button class="btn sm zoomtg" data-act="sheetZoom" hidden>${S.sheetFull ? '한눈에 보기' : '실제 크기로 보기'}</button><div class="sheet" id="sheet" style="${sheetStyle(pg)}">${blocksToHTML(B, pg)}</div></div>`;
 }
 
 /* ---------- ④ 위원회 ---------- */
@@ -1684,7 +1764,7 @@ function viewCommittee(e) {
   const cm = e.committee || {};
   const mt = findTask(e, '학업성적관리위원회');
   const chk = checkExam(e, S.ranges);
-  return `<div class="split">
+  return `<div class="split doc">
     <div class="card"><div class="card-h"><div><h2>학업성적관리위원회 심의</h2><p class="hint">회의일은 일정표의 ‘학업성적관리위원회 회의’ 날짜를 따릅니다${mt && mt.d1 ? ` (${esc(dLong(mt.d1))})` : ''}.</p></div></div>
       ${chk.bad.length ? `<div class="notice bad">아직 확인할 것이 ${chk.bad.length}건 남아 있습니다. ③ 통합 문서 탭을 먼저 확인해 주세요.</div>` : `<div class="notice good">상정 자료가 준비되었습니다.</div>`}
       <div class="grid" style="grid-template-columns:1fr">
@@ -1696,7 +1776,7 @@ function viewCommittee(e) {
       <p class="hint" style="margin-top:10px">수정 가결이면 ② 시험범위 수합 탭에서 해당 과목을 고친 뒤 통합 문서를 다시 받으세요.</p>
       <div class="row">${S.dl ? `<button class="btn pri" data-act="dlMinutesHwpx">회의록 한글(.hwpx)</button><button class="btn" data-act="dlAllHwpx">회의록 + 운영 방안 한글(.hwpx)</button><button class="btn" data-act="dlMinutes">회의록 워드(.docx)</button>` : ''}</div>
     </div>
-    <div class="sheetwrap"><div class="sheet" style="${sheetStyle(DOC_PAGE.minutes)}">${blocksToHTML(minutesBlocks(e, S.ranges), DOC_PAGE.minutes)}</div></div></div>`;
+    <div class="sheetwrap"><button class="btn sm zoomtg" data-act="sheetZoom" hidden>${S.sheetFull ? '한눈에 보기' : '실제 크기로 보기'}</button><div class="sheet" style="${sheetStyle(DOC_PAGE.minutes)}">${blocksToHTML(minutesBlocks(e, S.ranges), DOC_PAGE.minutes)}</div></div></div>`;
 }
 
 /* ===================== 이벤트 ===================== */
@@ -1709,6 +1789,16 @@ document.addEventListener('click', async ev => {
     S.tab = t.dataset.k; S.autoStep = false; render(); window.scrollTo(0, 0); return;
   }
   if (act === 'docTab') { S.docTab = t.dataset.k; render(); return; }
+  if (act === 'infoTab') {
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    S.infoTab = t.dataset.k; render(); return;
+  }
+  if (act === 'sheetZoom') { S.sheetFull = !S.sheetFull; render(); return; }
+  if (act === 'schedOpen') {
+    const id = t.closest('tr').dataset.row;
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    S.schedOpen = S.schedOpen === id ? null : id; render(); return;
+  }
   if (act === 'newExam') { openNewExam(); return; }
   if (act === 'adminEnter') {
     if (S.platform) { S.platform.isPinSet().then(set => set ? openPin() : openPinInit()).catch(() => toast('저장소에 연결하지 못했습니다.', 1)); return; }
@@ -1720,7 +1810,7 @@ document.addEventListener('click', async ev => {
   if (act === 'pinChange') { closeModal(); openPinChange(); return; }
   if (act === 'pickSub') { pickSub(t.dataset.s); return; }
   if (!e) return;
-  if (act === 'rowDel') { const id = t.closest('tr').dataset.row; e.schedule = e.schedule.filter(s => s.id !== id); queueSave(e); render(); }
+  if (act === 'rowDel') { const id = t.closest('tr').dataset.row; e.schedule = e.schedule.filter(s => s.id !== id); if (S.schedOpen === id) S.schedOpen = null; queueSave(e); render(); }
   else if (act === 'rowUp') {
     const id = t.closest('tr').dataset.row, i = e.schedule.findIndex(s => s.id === id);
     let j = i - 1; while (j >= 0 && e.schedule[j].phase !== e.schedule[i].phase) j--;
@@ -1730,7 +1820,7 @@ document.addEventListener('click', async ev => {
     const ph = t.dataset.ph, idx = e.schedule.map(s => s.phase).lastIndexOf(ph);
     const row = { id: rid(), phase: ph, d1: '', d2: '', task: '', owner: '', note: '' };
     if (idx < 0) e.schedule.push(row); else e.schedule.splice(idx + 1, 0, row);
-    queueSave(e); render();
+    S.schedOpen = row.id; queueSave(e); render();
   }
   else if (act === 'regen') {
     confirmBox('일정을 다시 계산할까요?', `시험 시작일(${dLong(examStart(e))})을 기준으로 일정표를 기본 일정으로 되돌립니다. 직접 고친 날짜와 추가한 업무는 사라집니다.`, '다시 계산', () => { e.schedule = genSchedule(examStart(e), examEnd(e)); queueSave(e); render(); toast('일정을 다시 계산했습니다.'); });
@@ -1738,6 +1828,7 @@ document.addEventListener('click', async ev => {
   else if (act === 'dayAdd') { const last = examEnd(e) || fd(new Date()); e.days.push({ date: addWork(last, 1), periods: [] }); queueSave(e); render(); }
   else if (act === 'dayDel') { if (e.days.length > 1) { e.days.pop(); queueSave(e); render(); } }
   else if (act === 'delExam') {
+    closeModal();
     confirmBox('이 고사를 삭제할까요?', `${examTitle(e)}의 일정, 시간표, 입력된 시험범위가 모두 지워집니다. 되돌릴 수 없습니다.`, '삭제', async () => {
       try { await Store.deleteExam(e); S.examId = (sortedExams()[0] || {}).id || null; subscribeRanges(); render(); toast('삭제했습니다.'); }
       catch (x) { toast('삭제하지 못했습니다.', 1); }
@@ -1921,7 +2012,7 @@ function openNewExam() {
     if (!gs.length) { toast('대상 학년을 선택해 주세요.', 1); return; }
     const carry = last ? { hq: last.hq, supervision: last.supervision, briefing: last.briefing, briefingOwner: last.briefingOwner, examTime: last.examTime, examNote: last.examNote, submitTo: last.submitTo, notice: last.notice, training: last.training } : {};
     const e = newExam(Object.assign(carry, { year: Number(f.year.value), semester: Number(f.semester.value), kind: f.kind.value, grades: gs, start: f.start.value, count: Number(f.count.value), periodsPerDay: Number(f.ppd.value) }));
-    S.exams.push(e); closeModal(); S.examId = e.id; S.tab = 'info'; S.ranges = {}; subscribeRanges();
+    S.exams.push(e); closeModal(); S.examId = e.id; S.tab = 'info'; S.infoTab = 'tt'; S.ranges = {}; subscribeRanges();
     try { await Store.saveExam(e); toast('고사를 만들었습니다. 시간표에 과목을 입력해 주세요.'); } catch (x) { toast('저장하지 못했습니다. 편집 권한을 확인해 주세요.', 1); }
     render();
   };
