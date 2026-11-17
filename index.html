@@ -16,11 +16,15 @@
   --spot:#0a69b8; --spot-d:#07508d; --tint:#e7f0f9; --tint2:#f3f7fb; --tintb:#b4cde8;
   --line:#ccd6e2; --line2:#e3e8ef; --field:#8a96a6;
   --bad:#b3261e; --badbg:#fcebe9; --ok:#17734a; --okbg:#e1f2e9; --warn:#855000; --warnbg:#fff1d6;
-  --r:10px; --r2:6px;
+  --on:#fff; --ink-h:#2c313a; --warnb:#ecd8a6; --badb:#f2c9c4; --okb:#bfe2cf; --desk:#dde2e9; --scrim:rgba(22,25,30,.5);
+  /* 글자 5단계: 보조 / 촘촘한 표 / 본문·입력칸 / 구역 제목 / 화면 제목 */
+  --t-s:13px; --t-d:14px; --t-b:16px; --t-h:18px; --t-x:22px;
+  /* 모서리 3단계: 꼬리표 / 버튼·입력칸 / 카드·창 (타원은 따로) */
+  --r-s:4px; --r-m:6px; --r-l:10px;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-html,body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;font-size:15px;line-height:1.55;word-break:keep-all}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;font-size:var(--t-b);line-height:1.55;word-break:keep-all}
 button,input,select,textarea{font:inherit;color:inherit}
 button{cursor:pointer}
 :focus-visible{outline:2px solid var(--spot);outline-offset:2px}
@@ -28,9 +32,9 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stro
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
 
 /* ── 칠하는 타원: 비어 있음 / 반쯤 / 다 칠함 ── */
-.bub{display:inline-grid;place-items:center;flex:none;width:22px;height:30px;border:1.5px solid var(--spot);border-radius:11px;background:#fff;color:var(--spot);font-size:12.5px;font-weight:600;line-height:1}
-.bub.fill{background:var(--ink);border-color:var(--ink);color:#fff}
-.bub.half{background:linear-gradient(to top,var(--ink) 50%,#fff 50%);border-color:var(--ink)}
+.bub{display:inline-grid;place-items:center;flex:none;width:22px;height:30px;border:1.5px solid var(--spot);border-radius:999px;background:var(--card);color:var(--spot);font-size:var(--t-s);font-weight:600;line-height:1}
+.bub.fill{background:var(--ink);border-color:var(--ink);color:var(--on)}
+.bub.half{background:linear-gradient(to top,var(--ink) 50%,var(--card) 50%);border-color:var(--ink)}
 .bub.sm{width:14px;height:20px}
 
 /* ── 상단 바 ── */
@@ -39,22 +43,22 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stro
 .topbar.teacher .tb-in{max-width:916px}
 .tb-brand{display:flex;align-items:center;gap:10px;flex:none}
 .tb-brand img{width:36px;height:36px;display:block}
-.tb-name{font-weight:700;font-size:16px;line-height:1.3}
-.tb-name small{display:block;font-weight:500;font-size:12px;color:var(--mute)}
-.tb-ctx{flex:1;min-width:0;display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink2)}
-.dday{flex:none;background:var(--ink);color:#fff;font-weight:600;font-size:13px;line-height:1;padding:5px 8px;border-radius:4px;font-variant-numeric:tabular-nums}
+.tb-name{font-weight:700;font-size:var(--t-b);line-height:1.3}
+.tb-name small{display:block;font-weight:500;font-size:var(--t-s);color:var(--mute)}
+.tb-ctx{flex:1;min-width:0;display:flex;align-items:center;gap:10px;font-size:var(--t-d);color:var(--ink2)}
+.dday{flex:none;background:var(--ink);color:var(--on);font-weight:600;font-size:var(--t-s);line-height:1;padding:5px 8px;border-radius:var(--r-s);font-variant-numeric:tabular-nums}
 .tb-next{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tb-next b{font-weight:600;color:var(--ink)}
-.savestate{margin-left:auto;flex:none;font-size:12.5px;color:var(--mute)}
+.savestate{margin-left:auto;flex:none;font-size:var(--t-s);color:var(--mute)}
 .tb-tools{display:flex;align-items:center;gap:8px;margin-left:auto;min-width:0}
-.examsel{appearance:none;-webkit-appearance:none;width:auto;max-width:300px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2316191e' stroke-width='2.4'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;border:1px solid var(--field);border-radius:var(--r2);padding:7px 32px 7px 12px;font-weight:600;font-size:14px;text-overflow:ellipsis;cursor:pointer}
-.examname{font-weight:600;font-size:14px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.tb-btn{display:inline-flex;align-items:center;gap:6px;flex:none;background:#fff;border:1px solid var(--field);border-radius:var(--r2);padding:7px 12px;font-weight:600;font-size:14px;white-space:nowrap}
+.examsel{appearance:none;-webkit-appearance:none;width:auto;max-width:300px;background:var(--card) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2316191e' stroke-width='2.4'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 10px center;border:1px solid var(--field);border-radius:var(--r-m);padding:7px 32px 7px 12px;font-weight:600;font-size:var(--t-d);text-overflow:ellipsis;cursor:pointer}
+.examname{font-weight:600;font-size:var(--t-d);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tb-btn{display:inline-flex;align-items:center;gap:6px;flex:none;background:var(--card);border:1px solid var(--field);border-radius:var(--r-m);padding:7px 12px;font-weight:600;font-size:var(--t-d);white-space:nowrap}
 .tb-btn:hover{border-color:var(--ink)}
 .tb-btn svg.i{width:18px;height:18px}
 .tb-btn.quiet{border-color:transparent;background:none;color:var(--ink2);font-weight:500}
 .tb-btn.quiet:hover{border-color:var(--line);color:var(--ink)}
-.banner{padding:8px 28px;font-size:13.5px;background:var(--warnbg);color:var(--warn);border-bottom:1px solid #ecd8a6;text-align:center}
+.banner{padding:8px 28px;font-size:var(--t-d);background:var(--warnbg);color:var(--warn);border-bottom:1px solid var(--warnb);text-align:center}
 
 /* ── 단계 메뉴 (관리자) ── */
 .steps{position:sticky;top:0;z-index:30;background:var(--card);border-bottom:1px solid var(--line)}
@@ -63,9 +67,9 @@ svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stro
 .step{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:10px;align-items:center;text-align:left;background:none;border:none;border-bottom:3px solid transparent;padding:10px 14px 7px;color:var(--ink2)}
 .step + .step{border-left:1px solid var(--line2)}
 .step .bub{grid-row:1 / span 2}
-.step .sl{font-weight:600;font-size:15px;line-height:1.35;color:var(--ink)}
+.step .sl{font-weight:600;font-size:var(--t-b);line-height:1.35;color:var(--ink)}
 .step .l-short{display:none}
-.step .ss{font-size:12.5px;line-height:1.4;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
+.step .ss{font-size:var(--t-s);line-height:1.4;color:var(--mute);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-variant-numeric:tabular-nums}
 .step .ss.warn{color:var(--warn);font-weight:600}
 .step .ss.ok{color:var(--ok)}
 .step:hover{background:var(--tint2)}
@@ -77,160 +81,175 @@ main{padding:24px 28px 80px;max-width:1180px;margin:0 auto;min-width:0}
 
 /* ── 과목 선생님 화면 ── */
 .tv{max-width:860px;margin:0 auto}
-.tv-head h1{margin:0;font-size:24px;font-weight:700;line-height:1.3}
+.tv-head h1{margin:0;font-size:var(--t-x);font-weight:700;line-height:1.3}
 .tv-head p{margin:6px 0 0;color:var(--ink2)}
 .tv-head .late{color:var(--warn);font-weight:600}
-.seg{display:inline-flex;border:1px solid var(--field);border-radius:var(--r2);overflow:hidden;background:#fff;margin:0 0 16px}
+.seg{display:inline-flex;border:1px solid var(--field);border-radius:var(--r-m);overflow:hidden;background:var(--card);margin:0 0 16px}
 .tv .seg{margin:16px 0 22px}
 .seg button{border:none;background:none;padding:8px 16px;font-weight:600;color:var(--ink2)}
 .seg button + button{border-left:1px solid var(--field)}
-.seg button[aria-pressed=true]{background:var(--ink);color:#fff}
+.seg button[aria-pressed=true]{background:var(--ink);color:var(--on)}
 .seg button:focus-visible{outline-offset:-3px}
-.tv-label{margin:0 0 8px;font-size:15px;font-weight:700}
+.tv-label{margin:0 0 8px;font-size:var(--t-b);font-weight:700}
 .subs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;margin-bottom:18px}
-.sub{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:10px;align-items:center;text-align:left;background:#fff;border:1px solid var(--line);border-radius:var(--r2);padding:8px 12px;min-height:54px}
+.sub{display:grid;grid-template-columns:auto minmax(0,1fr);column-gap:10px;align-items:center;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:var(--r-m);padding:8px 12px;min-height:54px}
 .sub .bub{grid-row:1 / span 2}
-.sub b{font-weight:600;font-size:16px;line-height:1.3}
-.sub .st{font-size:12.5px;line-height:1.3;color:var(--mute)}
+.sub b{font-weight:600;font-size:var(--t-b);line-height:1.3}
+.sub .st{font-size:var(--t-s);line-height:1.3;color:var(--mute)}
 .sub:hover{border-color:var(--ink)}
 .sub[aria-pressed=true]{border-color:var(--ink);box-shadow:inset 0 0 0 1px var(--ink);background:var(--tint2)}
-.tv-pick{margin:0;padding:22px 20px;border:1px dashed var(--field);border-radius:var(--r);color:var(--ink2);text-align:center}
-.tv-form{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--ink);border-radius:0 0 var(--r) var(--r);padding:18px 20px 20px}
-.tv-form h2{margin:0;font-size:18px;font-weight:700}
-.tv-form .meta{margin:2px 0 14px;font-size:13.5px;color:var(--mute)}
+.tv-pick{margin:0;padding:22px 20px;border:1px dashed var(--field);border-radius:var(--r-l);color:var(--ink2);text-align:center}
+.tv-form{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--ink);border-radius:0 0 var(--r-l) var(--r-l);padding:18px 20px 20px}
+.tv-form h2{margin:0;font-size:var(--t-h);font-weight:700}
+.tv-form .meta{margin:2px 0 14px;font-size:var(--t-s);color:var(--mute)}
 .tv-form .notice{margin-bottom:14px}
 .gf{display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px;align-items:start;padding:12px 0;border-top:1px solid var(--line2)}
 .gf label{font-weight:600;padding-top:9px}
-.gf textarea{font-size:16px;min-height:86px}
-.tv-foot{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;border-top:1px solid var(--line2);padding-top:14px}
-.tv-foot label.f{flex:1;min-width:180px}
-.tv-foot input{font-size:16px}
+.gf textarea{min-height:86px}
+.formfoot{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap;border-top:1px solid var(--line2);padding-top:14px}
+.formfoot label.f{flex:1;min-width:180px}
 
 /* ── 카드 · 버튼 · 입력칸 ── */
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:0 20px 20px;margin-bottom:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-l);padding:0 20px 20px;margin-bottom:16px}
 .card-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:0 -20px 16px;padding:14px 20px;border-bottom:1px solid var(--line2)}
 .card-h > div:first-child{flex:1;min-width:200px}
-.card h2{font-size:17px;font-weight:700;margin:0}
-.card .hint{color:var(--mute);font-size:13px;margin:2px 0 0}
+.card h2{font-size:var(--t-h);font-weight:700;margin:0}
+.card .hint{color:var(--mute);font-size:var(--t-s);margin:2px 0 0}
 .card > .hint{margin:0 0 14px}
-.btn{border:1px solid var(--field);background:#fff;border-radius:var(--r2);padding:8px 14px;font-weight:600;white-space:nowrap;color:var(--ink)}
+.card .hint.mt,.row.mt{margin-top:12px}
+.btn{border:1px solid var(--field);background:var(--card);border-radius:var(--r-m);padding:8px 14px;font-weight:600;white-space:nowrap;color:var(--ink)}
 .btn:hover{border-color:var(--ink)}
-.btn.pri{background:var(--ink);color:#fff;border-color:var(--ink)}
-.btn.pri:hover{background:#2c313a;border-color:#2c313a}
+.btn.pri{background:var(--ink);color:var(--on);border-color:var(--ink)}
+.btn.pri:hover{background:var(--ink-h);border-color:var(--ink-h)}
 .btn.red{color:var(--bad)}
 .btn.red:hover{border-color:var(--bad)}
-.btn.sm{padding:5px 10px;font-size:13px}
-.btn.lg{padding:11px 22px;font-size:16px}
+.btn.sm{padding:5px 10px;font-size:var(--t-s)}
+.btn.lg{padding:11px 22px}
 .btn.ghost{border-color:transparent;background:none}
 .btn:disabled{opacity:.45;cursor:default}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px 16px}
-label.f,div.f{display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--ink2);font-weight:600}
-label.f.wide{grid-column:1/-1}
-input[type=text],input[type=date],input[type=number],input[type=password],select,textarea{border:1px solid var(--field);background:#fff;border-radius:var(--r2);padding:8px 10px;width:100%;min-width:0}
+.grid.one{grid-template-columns:minmax(0,1fr)}
+.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+label.f,div.f{display:flex;flex-direction:column;gap:5px;font-size:var(--t-s);color:var(--ink2);font-weight:600}
+label.f.wide,div.f.wide{grid-column:1/-1}
+label.f.inline{flex-direction:row;align-items:center;gap:6px}
+label.f.inline select{width:auto}
+input[type=text],input[type=date],input[type=number],input[type=password],select,textarea{border:1px solid var(--field);background:var(--card);border-radius:var(--r-m);padding:8px 10px;width:100%;min-width:0}
 textarea{resize:vertical;min-height:74px;line-height:1.6}
+textarea.ta-s{min-height:58px}
+textarea.ta-l{min-height:110px}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--spot);outline-offset:-1px;border-color:var(--spot)}
 input:disabled,textarea:disabled{background:var(--paper);color:var(--ink2)}
 .chk{display:flex;gap:12px;flex-wrap:wrap;padding-top:6px}
 .chk label{display:flex;gap:6px;align-items:center;color:var(--ink);font-weight:600;cursor:pointer}
 .chk input{accent-color:var(--ink);width:16px;height:16px}
-table.ed{width:100%;border-collapse:collapse;font-size:13.5px}
-table.ed th{font-size:12.5px;color:var(--mute);font-weight:600;text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
+table.ed{width:100%;border-collapse:collapse;font-size:var(--t-d)}
+table.ed th{font-size:var(--t-s);color:var(--mute);font-weight:600;text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}
 table.ed td{padding:5px 4px;border-bottom:1px solid var(--line2);vertical-align:middle}
 table.ed input,table.ed select{padding:6px 8px}
 table.ed tr.auto td{background:var(--tint2);color:var(--ink2)}
-.wd{font-size:11.5px;color:var(--mute);white-space:nowrap}
+.wd{font-size:var(--t-s);color:var(--mute);white-space:nowrap}
 .scroll{overflow-x:auto}
 table.sched .c-sum{display:none}
 table.sched .c-act{white-space:nowrap}
+table.sched th.w-ph{width:96px}
+table.sched th.w-d{width:150px}
+table.sched th.w-own{width:150px}
+table.sched th.w-note{width:100px}
+table.sched th.w-act{width:70px}
 .days{display:flex;flex-wrap:wrap;gap:20px 24px}
 .day{flex:1 1 calc(44px + var(--p) * 86px);max-width:calc(60px + var(--p) * 150px);min-width:0}
 .day-h{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .day-h b{font-weight:700;white-space:nowrap}
 .day-h input{width:auto;flex:0 1 170px}
 .day-g{display:grid;grid-template-columns:44px repeat(var(--p),minmax(0,1fr));gap:6px;align-items:center}
-.day-g .ph{text-align:center;font-size:12.5px;font-weight:600;color:var(--mute)}
-.day-g .gl{font-size:13px;font-weight:600;color:var(--ink2)}
-.day-g input{text-align:center;background:var(--tint);border:1px solid var(--tintb);padding:10px 4px;font-weight:600;font-size:15px;color:var(--spot-d)}
-.day-g input:placeholder-shown{background:#fff;border:1.5px dashed var(--field)}
-h3.grp{margin:22px 0 10px;padding-top:16px;border-top:1px solid var(--line2);font-size:15px;font-weight:700;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.day-g .ph{text-align:center;font-size:var(--t-s);font-weight:600;color:var(--mute)}
+.day-g .gl{font-size:var(--t-s);font-weight:600;color:var(--ink2)}
+.day-g input{text-align:center;background:var(--tint);border:1px solid var(--tintb);padding:10px 4px;font-weight:600;font-size:var(--t-b);color:var(--spot-d)}
+.day-g input:placeholder-shown{background:var(--card);border:1.5px dashed var(--field)}
+h3.grp{margin:22px 0 10px;padding-top:16px;border-top:1px solid var(--line2);font-size:var(--t-b);font-weight:700;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 .card-h + h3.grp{margin-top:0;padding-top:0;border-top:none}
-h3.grp small{font-size:12.5px;font-weight:500;color:var(--mute)}
-.pill{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;padding:2px 8px;border-radius:4px;font-weight:600;white-space:nowrap}
+h3.grp small{font-size:var(--t-s);font-weight:500;color:var(--mute)}
+.pill{display:inline-flex;align-items:center;gap:4px;font-size:var(--t-s);padding:2px 8px;border-radius:var(--r-s);font-weight:600;white-space:nowrap}
 .pill.ok{background:var(--okbg);color:var(--ok)}
 .pill.no{background:var(--badbg);color:var(--bad)}
 .pill.part{background:var(--warnbg);color:var(--warn)}
 .pill.gray{background:var(--line2);color:var(--ink2)}
-.prog{height:8px;background:var(--line2);border-radius:4px;overflow:hidden;margin:8px 0 2px}
+.prog{height:8px;background:var(--line2);border-radius:var(--r-s);overflow:hidden;margin:8px 0 2px}
 .prog > i{display:block;height:100%;background:var(--ink);transition:width .3s}
 .split{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:16px;align-items:start}
 .split.doc{grid-template-columns:minmax(0,380px) minmax(0,1fr)}
 .status td,.status th{padding:10px 6px}
 .status tr.sel td{background:var(--tint)}
 .status tr{cursor:pointer}
+.rowbtn{display:block;width:100%;background:none;border:none;padding:0;text-align:left;font-weight:700}
 .status tr:hover td{background:var(--tint2)}
 .subchips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
-.chip{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:var(--r2);padding:7px 14px;font-weight:600}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:var(--r-m);padding:7px 14px;font-weight:600}
 .chip:hover{border-color:var(--ink)}
-.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
-.chip .c{font-size:11.5px;margin-left:4px;opacity:.85}
+.chip.on{background:var(--ink);color:var(--on);border-color:var(--ink)}
+.chip .c{font-size:var(--t-s);margin-left:4px;opacity:.85}
 .gfield{margin-bottom:14px}
-.gfield .gl{font-weight:600;font-size:14px;margin-bottom:5px;display:flex;justify-content:space-between;gap:8px}
+.gfield .gl{font-weight:600;font-size:var(--t-d);margin-bottom:5px;display:flex;justify-content:space-between;gap:8px}
 .muted{color:var(--mute)}
-.small{font-size:12.5px}
+.small{font-size:var(--t-s)}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.notice{border-radius:var(--r2);padding:11px 14px;font-size:13.5px;margin-bottom:12px}
-.notice.warn{background:var(--warnbg);color:var(--warn);border:1px solid #ecd8a6}
-.notice.bad{background:var(--badbg);color:var(--bad);border:1px solid #f2c9c4}
-.notice.good{background:var(--okbg);color:var(--ok);border:1px solid #bfe2cf}
+.notice{border-radius:var(--r-m);padding:11px 14px;font-size:var(--t-d);margin-bottom:12px}
+.notice.warn{background:var(--warnbg);color:var(--warn);border:1px solid var(--warnb)}
+.notice.bad{background:var(--badbg);color:var(--bad);border:1px solid var(--badb)}
+.notice.good{background:var(--okbg);color:var(--ok);border:1px solid var(--okb)}
 .notice ul{margin:4px 0 0;padding-left:18px}
 .subtabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-.subtabs button{border:1px solid var(--line);background:#fff;padding:7px 14px;font-weight:600;color:var(--ink2);border-radius:var(--r2)}
-.subtabs button.on{color:#fff;background:var(--ink);border-color:var(--ink)}
-.sheetwrap{background:#dde2e9;border-radius:var(--r);padding:22px;overflow-x:auto}
+.subtabs button{border:1px solid var(--line);background:var(--card);padding:7px 14px;font-weight:600;color:var(--ink2);border-radius:var(--r-m)}
+.subtabs button.on{color:var(--on);background:var(--ink);border-color:var(--ink)}
+.sheetwrap{background:var(--desk);border-radius:var(--r-l);padding:22px;overflow-x:auto}
 .zoomtg{display:block;margin:0 0 10px auto}
 .zoomtg[hidden]{display:none}
 .sheet{background:#fff;width:794px;min-width:794px;margin:0 auto;box-shadow:0 1px 6px rgba(22,25,30,.16);color:#000;font-family:'함초롬돋움','HCR Dotum','Noto Sans KR',sans-serif;overflow-x:auto;letter-spacing:0}
 .sheet .pb{border-top:1px dashed #bbb;margin:30px -60px;position:relative}
-.sheet .pb::after{content:"쪽 나눔";position:absolute;right:10px;top:-9px;background:#fff;padding:0 6px;font-size:11px;color:#777}
+.sheet .pb::after{content:"쪽 나눔";position:absolute;right:10px;top:-9px;background:#fff;padding:0 6px;font-size:var(--t-s);color:#777}
 .sheet .tab{display:inline-block;width:2em}
-.empty{text-align:center;padding:56px 20px;color:var(--ink2);background:#fff;border:1px solid var(--line);border-radius:var(--r)}
-.empty .big{font-size:20px;font-weight:700;margin-bottom:6px;color:var(--ink)}
-#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:11px 18px;border-radius:var(--r2);font-size:14px;opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90vw}
+.empty{text-align:center;padding:56px 20px;color:var(--ink2);background:var(--card);border:1px solid var(--line);border-radius:var(--r-l)}
+.empty .big{font-size:var(--t-h);font-weight:700;margin-bottom:6px;color:var(--ink)}
+#toast{position:fixed;left:50%;bottom:28px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--on);padding:11px 18px;border-radius:var(--r-m);font-size:var(--t-d);opacity:0;pointer-events:none;transition:.25s;z-index:60;max-width:90vw}
 #toast.show{opacity:1;transform:translateX(-50%)}
 #toast.err{background:var(--bad)}
-.modal-bg{position:fixed;inset:0;background:rgba(22,25,30,.5);display:grid;place-items:center;z-index:50;padding:16px}
-.modal{background:#fff;border-radius:12px;padding:22px;width:min(520px,100%);max-height:90vh;overflow:auto}
-.modal h2{margin:0 0 6px;font-size:18px;font-weight:700}
+.modal-bg{position:fixed;inset:0;background:var(--scrim);display:grid;place-items:center;z-index:50;padding:16px}
+.modal{background:var(--card);border-radius:var(--r-l);padding:22px;width:min(520px,100%);max-height:90vh;overflow:auto}
+.modal:focus{outline:none}
+.modal h2{margin:0 0 6px;font-size:var(--t-h);font-weight:700}
 .modal .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
-.modal .hint{color:var(--mute);font-size:13px}
-.copybox{width:100%;min-height:150px;font-size:13px}
-.menulist{display:flex;flex-direction:column;margin-top:10px;border:1px solid var(--line);border-radius:var(--r2);overflow:hidden}
-.menulist button{display:flex;align-items:center;gap:12px;text-align:left;background:#fff;border:none;padding:13px 14px;font-weight:600}
+.modal .hint{color:var(--mute);font-size:var(--t-s)}
+.copybox{width:100%;min-height:150px;font-size:var(--t-s)}
+.menulist{display:flex;flex-direction:column;margin-top:10px;border:1px solid var(--line);border-radius:var(--r-m);overflow:hidden}
+.menulist button{display:flex;align-items:center;gap:12px;text-align:left;background:var(--card);border:none;padding:13px 14px;font-weight:600}
 .menulist button + button{border-top:1px solid var(--line2)}
 .menulist button:hover{background:var(--tint2)}
 .menulist button:focus-visible{outline-offset:-3px}
-.menulist .m{display:block;font-size:12.5px;color:var(--mute);font-weight:400}
+.menulist .m{display:block;font-size:var(--t-s);color:var(--mute);font-weight:400}
 .menulist .danger{color:var(--bad)}
-.pinbox{font-size:26px;letter-spacing:10px;text-align:center;padding:12px}
-.pinmsg{min-height:20px;color:var(--bad);font-size:13px;margin-top:8px}
+.pinbox{font-size:var(--t-x);letter-spacing:10px;text-align:center;padding:12px}
+.pinmsg{min-height:20px;color:var(--bad);font-size:var(--t-s);margin-top:8px}
 
 @media (max-width:900px){
   .tb-in{padding:8px 14px;gap:8px 12px}
-  .tb-ctx{order:3;flex-basis:100%;font-size:13.5px}
+  .tb-ctx{order:3;flex-basis:100%;font-size:var(--t-s)}
   .banner{padding:8px 14px}
   .steps-in{padding:0}
   .step{column-gap:6px;padding:8px 8px 5px}
-  .step .bub{grid-row:1;width:16px;height:22px;font-size:11px}
-  .step .sl{font-size:14px}
+  .step .bub{grid-row:1;width:18px;height:24px}
+  .step .sl{font-size:var(--t-d)}
   .step .l-long{display:none}
   .step .l-short{display:inline}
-  .step .ss{grid-column:1 / -1;font-size:12px}
+  .step .ss{grid-column:1 / -1;font-size:var(--t-s)}
   main{padding:16px 14px 60px}
-  main input,main select,main textarea{font-size:16px}
+  main input,main select,main textarea{font-size:var(--t-b)}
   .split,.split.doc{grid-template-columns:1fr}
   .card{padding:0 14px 16px}
   .card-h{margin:0 -14px 14px;padding:12px 14px}
   .sheetwrap{padding:10px}
+  .modal-bg{place-items:end center;padding:0}
+  .modal{border-radius:var(--r-l) var(--r-l) 0 0;width:100%;max-height:92vh;padding:20px 16px calc(20px + env(safe-area-inset-bottom))}
   .day-g input{padding:11px 2px}
   table.sched,table.sched tbody{display:block}
   table.sched tr.head{display:none}
@@ -238,20 +257,20 @@ h3.grp small{font-size:12.5px;font-weight:500;color:var(--mute)}
   table.sched td{display:none;padding:0;border:none;min-width:0}
   table.sched td.c-sum{display:block}
   .sumbtn{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1px 10px;align-items:center;width:100%;text-align:left;background:none;border:none;padding:11px 0;color:var(--ink)}
-  .sumbtn .s-when{font-size:13px;color:var(--ink2);font-variant-numeric:tabular-nums}
+  .sumbtn .s-when{font-size:var(--t-s);color:var(--ink2);font-variant-numeric:tabular-nums}
   .sumbtn .s-when.none{color:var(--warn);font-weight:600}
-  .sumbtn .s-ph{font-size:12.5px;color:var(--mute)}
-  .sumbtn .s-task{font-size:16px;font-weight:600;line-height:1.4}
-  .sumbtn .s-own{grid-column:1;font-size:13px;color:var(--mute)}
+  .sumbtn .s-ph{font-size:var(--t-s);color:var(--mute)}
+  .sumbtn .s-task{font-size:var(--t-b);font-weight:600;line-height:1.4}
+  .sumbtn .s-own{grid-column:1;font-size:var(--t-s);color:var(--mute)}
   .sumbtn .s-own:empty{display:none}
-  .sumbtn .s-x{display:none;grid-column:1;font-size:13.5px;font-weight:600;color:var(--ink2)}
+  .sumbtn .s-x{display:none;grid-column:1;font-size:var(--t-s);font-weight:600;color:var(--ink2)}
   .sumbtn svg.i{grid-column:2;grid-row:2;justify-self:end;width:18px;height:18px;color:var(--mute)}
   .sumbtn:focus-visible{outline-offset:-2px}
-  table.sched tr.open{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"sum sum" "task task" "d1 d2" "owner note" "phase act";gap:10px;margin:8px 0;padding:0 12px 14px;background:var(--tint2);border:1px solid var(--line);border-radius:var(--r2)}
+  table.sched tr.open{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"sum sum" "task task" "d1 d2" "owner note" "phase act";gap:10px;margin:8px 0;padding:0 12px 14px;background:var(--tint2);border:1px solid var(--line);border-radius:var(--r-m)}
   table.sched tr.open td{display:block}
-  table.sched tr.open td[data-l]::before{content:attr(data-l);display:block;margin-bottom:3px;font-size:12.5px;font-weight:600;color:var(--mute)}
+  table.sched tr.open td[data-l]::before{content:attr(data-l);display:block;margin-bottom:3px;font-size:var(--t-s);font-weight:600;color:var(--mute)}
   table.sched tr.open .c-sum{grid-area:sum}
-  table.sched tr.open .sumbtn{padding:10px 0 0}
+  table.sched tr.open .sumbtn{padding:0;min-height:44px}
   table.sched tr.open .sumbtn span{display:none}
   table.sched tr.open .sumbtn .s-x{display:block}
   table.sched tr.open .sumbtn svg.i{grid-row:1;transform:rotate(180deg)}
@@ -263,11 +282,11 @@ h3.grp small{font-size:12.5px;font-weight:500;color:var(--mute)}
   table.sched .c-note{grid-area:note}
   table.sched .c-phase{grid-area:phase}
   table.sched tr.open .c-act{grid-area:act;display:flex;justify-content:flex-end;align-items:flex-end;gap:6px}
-  table.sched .c-act .btn{min-width:44px;min-height:44px;background:#fff;border-color:var(--line)}
-  table.sched tr.auto{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"phase d1 act" "task task task";gap:2px 10px;padding:10px 12px;margin:8px 0;background:var(--tint);border-radius:var(--r2)}
+  table.sched .c-act .btn{min-width:44px;min-height:44px;background:var(--card);border-color:var(--line)}
+  table.sched tr.auto{display:grid;grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"phase d1 act" "task task task";gap:2px 10px;padding:10px 12px;margin:8px 0;background:var(--tint);border-radius:var(--r-m)}
   table.sched tr.auto td{display:block;background:none}
   table.sched tr.auto .c-phase,table.sched tr.auto .c-d1{font-weight:600;color:var(--ink)}
-  table.sched tr.auto .c-task{font-size:13px;color:var(--ink2)}
+  table.sched tr.auto .c-task{font-size:var(--t-s);color:var(--ink2)}
   table.sched tr.auto .c-act{grid-area:act;color:var(--mute)}
 }
 @media (max-width:600px){
@@ -275,14 +294,23 @@ h3.grp small{font-size:12.5px;font-weight:500;color:var(--mute)}
   .topbar.has-pick .tb-name{display:none}
   .tb-tools{flex:1 1 0;justify-content:flex-end}
   .examsel{flex:0 1 auto;min-width:0;max-width:none}
-  .tv-head h1{font-size:21px}
   .seg{display:flex}
   .seg button{flex:1;padding:10px 8px}
   .subs{grid-template-columns:1fr 1fr}
   .tv-form{padding:16px 14px 18px}
   .gf{grid-template-columns:1fr;gap:4px}
   .gf label{padding-top:0}
-  .tv-foot .btn{width:100%}
+  .formfoot .btn{width:100%}
+  .grid.three{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:900px),(pointer:coarse){
+  .btn,.tb-btn,.examsel,.chip,.subtabs button,.seg button,.rowbtn{min-height:44px}
+  input[type=text],input[type=date],input[type=number],input[type=password],select{min-height:44px}
+  .rowbtn{min-width:44px}
+  .chk{gap:4px 16px;padding-top:0}
+  .chk label{min-height:44px;min-width:44px}
+  .chk input{width:22px;height:22px}
+  .menulist button{min-height:52px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -1347,6 +1375,8 @@ function setRole(r) {
 }
 
 const $ = s => document.querySelector(s);
+const denied = x => !!x && (x.code === 'permission-denied' || x.code === 'invalid_argument');
+const saveFail = x => denied(x) ? '저장하지 못했습니다. 관리자 번호가 바뀌었을 수 있으니 관리자로 다시 들어와 주세요.' : '저장하지 못했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요.';
 function toast(msg, err) { const t = $('#toast'); t.textContent = msg; t.className = 'show' + (err ? ' err' : ''); clearTimeout(t._h); t._h = setTimeout(() => t.className = '', 2600); }
 
 /* ===================== 저장소 ===================== */
@@ -1383,7 +1413,7 @@ async function flushSave(id) {
   const e = S.exams.find(x => x.id === id); if (!e) return;
   S.saving.add(id); S.dirty.delete(id); setSaveState('저장 중…');
   try { await Store.saveExam(e); setSaveState(S.db ? '저장됨' : '이 화면에만 보관됨'); }
-  catch (err) { S.dirty.add(id); setSaveState('저장 실패'); toast('저장하지 못했습니다. 편집 권한이 있는지 확인해 주세요.', 1); }
+  catch (err) { S.dirty.add(id); setSaveState('저장 실패'); toast(saveFail(err), 1); }
   finally { S.saving.delete(id); }
 }
 function setSaveState(t) { S.saveText = t; const el = $('#saveState'); if (el) el.textContent = t; }
@@ -1449,7 +1479,7 @@ function stepInfo(e) {
   const s = examStart(e), en = examEnd(e), md = x => { const d = pd(x); return `${d.getMonth() + 1}.${d.getDate()}.`; };
   const dated = (e.days || []).length > 0 && (e.days || []).every(d => d.date), all = st.subs.length > 0 && st.subDone === st.subs.length;
   return {
-    info: { done: dated && st.subs.length > 0, text: !dated ? '시험일 없음' : !st.subs.length ? '시간표 없음' : (en !== s ? `${md(s)}~${md(en)}` : md(s)), cls: dated && st.subs.length ? '' : 'warn' },
+    info: { done: dated && st.subs.length > 0, text: !dated ? '시험일 없음' : !st.subs.length ? '시간표 없음' : en === s ? md(s) : pd(en).getMonth() === pd(s).getMonth() ? `${md(s)}~${pd(en).getDate()}.` : `${md(s)}~${md(en)}`, cls: dated && st.subs.length ? '' : 'warn' },
     range: { done: all, text: st.subs.length ? `${st.subDone}/${st.subs.length}과목${e.rangeLocked ? ' 마감' : ''}` : '과목 없음', cls: all ? 'ok' : '' },
     doc: { done: !chk.bad.length, text: chk.bad.length ? `점검 ${chk.bad.length}건` : '준비 완료', cls: chk.bad.length ? 'warn' : 'ok' },
     committee: { done: !!cm.result, text: cm.result || (mt && mt.d1 ? dShort(mt.d1) : '날짜 없음'), cls: cm.result ? 'ok' : '' },
@@ -1567,7 +1597,7 @@ function viewTeacher(e) {
       <h2>${esc(mine.name)} 시험범위</h2>
       <p class="meta">${w ? `마지막 저장 ${esc(when)}${r.teacher ? `, ${esc(r.teacher)} 선생님` : ''}. ` : ''}단원명과 쪽수를 함께 적어 주세요. 줄을 바꿔 쓰면 문서에서도 줄이 바뀝니다.</p>
       ${mine.grades.map((g, i) => `<div class="gf"><label for="rg${g}">${g}학년</label><textarea id="rg${g}" name="g${g}" ${locked ? 'disabled' : ''}${i ? '' : ' placeholder="예) Ⅳ. 도형의 기초 ~ Ⅴ.3. 원과 부채꼴 (134쪽~197쪽)&#10;    p.222~223 중 시험 범위에 해당되는 문제 포함, 학습지"'}>${esc(dv(mine.name, 'g' + g, (r.text || {})[g] || ''))}</textarea></div>`).join('')}
-      <div class="tv-foot"><label class="f">입력한 선생님<input type="text" name="teacher" autocomplete="name" ${locked ? 'disabled' : ''} value="${esc(dv(mine.name, 'teacher', S.teacherName || r.teacher || ''))}" placeholder="이름"></label>
+      <div class="formfoot"><label class="f">입력한 선생님<input type="text" name="teacher" autocomplete="name" ${locked ? 'disabled' : ''} value="${esc(dv(mine.name, 'teacher', S.teacherName || r.teacher || ''))}" placeholder="이름"></label>
       <button class="btn pri lg" type="submit" ${locked ? 'disabled' : ''}>${r.updatedAt ? '수정 내용 저장' : '시험범위 제출'}</button></div></form>`;
   }
   return `<div class="tv">${head}<h2 class="tv-label">맡은 과목</h2><div class="subs">${subs}</div>${form}</div>`;
@@ -1576,7 +1606,7 @@ function viewTeacher(e) {
 // Firebase 버전: 관리자 번호가 아직 없으면 처음 정하기
 function openPinInit() {
   modal(`<h2>관리자 번호 처음 정하기</h2><p class="hint">아직 관리자 번호가 없습니다. 지금 정하는 번호가 관리자 화면의 열쇠가 됩니다. 영문과 숫자를 섞어 8자리 이상으로 정해 주세요.</p>
-    <form id="pinInitForm"><div class="grid" style="grid-template-columns:1fr">
+    <form id="pinInitForm"><div class="grid one">
       <label class="f">관리자 번호<input type="password" name="n1" autocomplete="new-password"></label>
       <label class="f">관리자 번호 확인<input type="password" name="n2" autocomplete="new-password"></label></div>
     <div class="pinmsg" id="pinMsg"></div>
@@ -1611,7 +1641,7 @@ function openPin() {
 function openPinChange() {
   const fb = !!S.platform;
   modal(`<h2>관리자 번호 변경</h2><p class="hint">담당자가 바뀌면 새 담당자가 번호를 바꿔 주세요. ${fb ? '영문과 숫자를 섞어 8자리 이상. 바꾸면 다른 기기의 관리자 화면은 모두 풀립니다.' : '숫자 4~10자리.'}</p>
-    <form id="pinChForm"><div class="grid" style="grid-template-columns:1fr">
+    <form id="pinChForm"><div class="grid one">
       <label class="f">현재 번호<input type="password" name="cur" autocomplete="off"></label>
       <label class="f">새 번호<input type="password" name="n1" autocomplete="off"></label>
       <label class="f">새 번호 확인<input type="password" name="n2" autocomplete="off"></label></div>
@@ -1663,7 +1693,7 @@ function infoTimetable(e) {
     </div></div>
 
   <div class="card"><div class="card-h"><div><h2>고사 시간표</h2><p class="hint">여기 입력한 과목이 ② 범위 수합 목록과 일정표의 시험일 행에 자동으로 들어갑니다. 시험이 없는 칸은 ‘자습’으로 입력하세요.</p></div>
-    <div class="row"><label class="f" style="flex-direction:row;align-items:center;gap:6px">하루<select data-f="periodsPerDay" style="width:auto">${[1, 2, 3, 4].map(x => `<option value="${x}"${P === x ? ' selected' : ''}>${x}</option>`).join('')}</select>교시</label>
+    <div class="row"><label class="f inline">하루<select data-f="periodsPerDay">${[1, 2, 3, 4].map(x => `<option value="${x}"${P === x ? ' selected' : ''}>${x}</option>`).join('')}</select>교시</label>
     <button class="btn sm" data-act="dayAdd">시험일 추가</button><button class="btn sm" data-act="dayDel"${days.length <= 1 ? ' disabled' : ''}>마지막 날 빼기</button></div></div>
     <div class="days" style="--p:${P}">${days.map(day).join('')}</div><datalist id="subjList">${subjList.map(s => `<option value="${s}">`).join('')}</datalist></div>`;
 }
@@ -1685,9 +1715,9 @@ function infoSched(e) {
   return `
   <div class="card"><div class="card-h"><div><h2>일정 및 세부 계획</h2><p class="hint">요일은 날짜에서 자동으로 계산됩니다. 같은 날짜의 행은 문서에서 한 칸으로 합쳐지고, 이의신청 ‘○일간’은 등교일 기준으로 자동 계산됩니다. 공휴일·재량휴업일은 직접 확인해 주세요.</p></div>
     <button class="btn sm" data-act="regen">시험 시작일 기준으로 다시 계산</button></div>
-    <div class="scroll"><table class="ed sched"><tr class="head"><th style="width:96px">단계</th><th style="width:132px">날짜</th><th style="width:132px">종료일(기간)</th><th>업무</th><th style="width:170px">담당</th><th style="width:100px">비고</th><th style="width:66px"></th></tr>
+    <div class="scroll"><table class="ed sched"><tr class="head"><th class="w-ph">단계</th><th class="w-d">날짜</th><th class="w-d">종료일(기간)</th><th>업무</th><th class="w-own">담당</th><th class="w-note">비고</th><th class="w-act"><span class="sr">옮기기·삭제</span></th></tr>
     ${byPh('고사 전')}${examRows}${byPh('시험당일')}${byPh('고사 후')}</table></div>
-    <div class="row" style="margin-top:12px"><button class="btn sm" data-act="rowAdd" data-ph="고사 전">고사 전 업무 추가</button><button class="btn sm" data-act="rowAdd" data-ph="고사 후">고사 후 업무 추가</button></div></div>`;
+    <div class="row mt"><button class="btn sm" data-act="rowAdd" data-ph="고사 전">고사 전 업무 추가</button><button class="btn sm" data-act="rowAdd" data-ph="고사 후">고사 후 업무 추가</button></div></div>`;
 }
 // 문서 문구: 어느 문서의 어느 자리에 들어가는지에 따라 묶음
 function infoText(e) {
@@ -1701,7 +1731,7 @@ function infoText(e) {
     <h3 class="grp">제출 안내<small>제출서류 및 유의사항 문서</small></h3>
     <div class="grid">${f('submitTo', '출제지 원안 제출처', '예) 교무부(담당 선생님 이름)')}${f('notice', '출제 안내 문구 (문서 첫머리)', '', 'wide')}</div>
     <h3 class="grp">교직원 연수 자료 목록</h3>
-    <label class="f">한 줄에 하나씩 적습니다. 첫 줄 ‘제출서류 및 유의사항’은 자동으로 붙고, {Y}는 학년도로 바뀝니다.<textarea data-f="training" style="min-height:64px">${esc((e.training || []).join('\n'))}</textarea></label></div>`;
+    <label class="f">한 줄에 하나씩 적습니다. 첫 줄 ‘제출서류 및 유의사항’은 자동으로 붙고, {Y}는 학년도로 바뀝니다.<textarea data-f="training" class="ta-s">${esc((e.training || []).join('\n'))}</textarea></label></div>`;
 }
 
 /* ---------- ② 시험범위 수합 ---------- */
@@ -1715,19 +1745,19 @@ function viewRange(e, st) {
     const r = S.ranges[s.name];
     const cells = gs.map(g => !s.grades.includes(g) ? `<td class="muted">—</td>` : (r && r.text && (r.text[g] || '').trim() ? `<td><span class="pill ok">입력</span></td>` : `<td><span class="pill no">미입력</span></td>`)).join('');
     const when = r && r.updatedAt ? new Date(r.updatedAt) : null;
-    return `<tr class="${S.selSub === s.name ? 'sel' : ''}" data-act="pickSub" data-s="${esc(s.name)}"><td><b>${esc(s.name)}</b></td>${cells}<td class="small">${esc(r && r.teacher || '')}</td><td class="small muted">${when ? `${when.getMonth() + 1}.${when.getDate()}. ${String(when.getHours()).padStart(2, '0')}:${String(when.getMinutes()).padStart(2, '0')}` : ''}</td></tr>`;
+    return `<tr class="${S.selSub === s.name ? 'sel' : ''}" data-act="pickSub" data-s="${esc(s.name)}"><td><button type="button" class="rowbtn" data-act="pickSub" data-s="${esc(s.name)}" aria-pressed="${S.selSub === s.name}">${esc(s.name)}</button></td>${cells}<td class="small">${esc(r && r.teacher || '')}</td><td class="small muted">${when ? `${when.getMonth() + 1}.${when.getDate()}. ${String(when.getHours()).padStart(2, '0')}:${String(when.getMinutes()).padStart(2, '0')}` : ''}</td></tr>`;
   }).join('');
   const sel = st.subs.find(s => s.name === S.selSub);
   let form = '';
   if (!st.subs.length) form = `<div class="notice warn">① 시험 일정의 고사 시간표에 과목을 먼저 입력해 주세요.</div>`;
   else if (sel) {
     const r = S.ranges[sel.name] || {};
-    form = `<div class="subchips">${st.subs.map(s => `<button class="chip${s.name === sel.name ? ' on' : ''}" data-act="pickSub" data-s="${esc(s.name)}">${esc(s.name)}${isDone(s) ? '<span class="c">✓</span>' : ''}</button>`).join('')}</div>
+    form = `<div class="subchips">${st.subs.map(s => `<button type="button" class="chip${s.name === sel.name ? ' on' : ''}" data-act="pickSub" data-s="${esc(s.name)}" aria-pressed="${s.name === sel.name}">${esc(s.name)}${isDone(s) ? '<span class="c">✓</span>' : ''}</button>`).join('')}</div>
       <form id="rangeForm" data-s="${esc(sel.name)}">
       ${sel.grades.map(g => `<div class="gfield"><div class="gl"><span>${esc(sel.name)} · ${g}학년</span><span class="muted small">단원명과 쪽수를 함께 적어 주세요</span></div>
         <textarea name="g${g}" placeholder="예) Ⅳ. 도형의 기초 ~ Ⅴ.3. 원과 부채꼴 (134쪽~197쪽)&#10;    p.222~223 중 시험 범위에 해당되는 문제 포함, 학습지">${esc(dv(sel.name, 'g' + g, (r.text || {})[g] || ''))}</textarea></div>`).join('')}
-      <div class="row"><label class="f" style="flex:1;min-width:160px">입력한 선생님<input type="text" name="teacher" value="${esc(dv(sel.name, 'teacher', r.teacher || S.teacherName))}" placeholder="이름"></label>
-      <button class="btn pri" type="submit" style="align-self:flex-end">${r.updatedAt ? '수정 내용 저장' : '시험범위 제출'}</button></div></form>`;
+      <div class="formfoot"><label class="f">입력한 선생님<input type="text" name="teacher" value="${esc(dv(sel.name, 'teacher', r.teacher || S.teacherName))}" placeholder="이름"></label>
+      <button class="btn pri" type="submit">${r.updatedAt ? '수정 내용 저장' : '시험범위 제출'}</button></div></form>`;
   }
   return `<div class="card"><div class="card-h"><div><h2>시험범위 수합 현황</h2>
       <p class="hint">${due && due.d1 ? `마감 <b>${esc(dLong(due.d1))}</b> · ` : ''}과목 선생님이 링크에서 직접 입력하면 통합 문서에 바로 반영됩니다.</p></div>
@@ -1754,7 +1784,7 @@ function viewDoc(e, chk) {
   }
   return `<div class="card"><div class="card-h"><div><h2>통합 문서</h2><p class="hint">입력된 내용으로 문서가 자동으로 만들어집니다.${(S.platform && S.platform.directHwpx) || S.standalone ? '' : ' 한글 파일은 .zip으로 묶여 내려받아지니, 압축을 풀어 .hwpx를 한글에서 여세요.'}</p></div>
     <div class="row">${S.dl ? `<button class="btn pri" data-act="dlHwpx">한글 파일(.hwpx) 받기</button><button class="btn" data-act="dlDocx">워드(.docx)</button><button class="btn" data-act="dlHtml">HTML</button>` : ''}<button class="btn" data-act="copyDoc">표 복사</button></div></div>
-    <div class="subtabs">${tabs.map(([k, l]) => `<button class="${S.docTab === k ? 'on' : ''}" data-act="docTab" data-k="${k}">${l}</button>`).join('')}</div>
+    <div class="subtabs">${tabs.map(([k, l]) => `<button class="${S.docTab === k ? 'on' : ''}" data-act="docTab" data-k="${k}" aria-pressed="${S.docTab === k}">${l}</button>`).join('')}</div>
     ${ck}</div>
     <div class="sheetwrap"><button class="btn sm zoomtg" data-act="sheetZoom" hidden>${S.sheetFull ? '한눈에 보기' : '실제 크기로 보기'}</button><div class="sheet" id="sheet" style="${sheetStyle(pg)}">${blocksToHTML(B, pg)}</div></div>`;
 }
@@ -1766,14 +1796,14 @@ function viewCommittee(e) {
   const chk = checkExam(e, S.ranges);
   return `<div class="split doc">
     <div class="card"><div class="card-h"><div><h2>학업성적관리위원회 심의</h2><p class="hint">회의일은 일정표의 ‘학업성적관리위원회 회의’ 날짜를 따릅니다${mt && mt.d1 ? ` (${esc(dLong(mt.d1))})` : ''}.</p></div></div>
-      ${chk.bad.length ? `<div class="notice bad">아직 확인할 것이 ${chk.bad.length}건 남아 있습니다. ③ 통합 문서 탭을 먼저 확인해 주세요.</div>` : `<div class="notice good">상정 자료가 준비되었습니다.</div>`}
-      <div class="grid" style="grid-template-columns:1fr">
+      ${chk.bad.length ? `<div class="notice bad">아직 확인할 것이 ${chk.bad.length}건 남아 있습니다. ③ 통합 문서 단계를 먼저 확인해 주세요.</div>` : `<div class="notice good">상정 자료가 준비되었습니다.</div>`}
+      <div class="grid one">
         <label class="f">장소<input type="text" data-c="place" value="${esc(cm.place || '')}" placeholder="예) 4층 교무실"></label>
-        <label class="f">참석 위원<textarea data-c="members" style="min-height:54px" placeholder="예) 위원장 교감 ○○○, 교무부장 ○○○, 1학년부장 ○○○ …">${esc(cm.members || '')}</textarea></label>
+        <label class="f">참석 위원<textarea data-c="members" class="ta-s" placeholder="예) 위원장 교감 ○○○, 교무부장 ○○○, 1학년부장 ○○○ …">${esc(cm.members || '')}</textarea></label>
         <label class="f">심의 결과<select data-c="result">${['', '원안 가결', '수정 가결', '보류', '부결'].map(x => `<option${(cm.result || '') === x ? ' selected' : ''}>${x}</option>`).join('')}</select></label>
-        <label class="f">주요 의견 및 수정 사항<textarea data-c="opinion" style="min-height:110px" placeholder="예) 2학년 과학 시험범위 중 학습지 쪽수 수정(13쪽~25쪽)">${esc(cm.opinion || '')}</textarea></label>
+        <label class="f">주요 의견 및 수정 사항<textarea data-c="opinion" class="ta-l" placeholder="예) 2학년 과학 시험범위 중 학습지 쪽수 수정(13쪽~25쪽)">${esc(cm.opinion || '')}</textarea></label>
       </div>
-      <p class="hint" style="margin-top:10px">수정 가결이면 ② 시험범위 수합 탭에서 해당 과목을 고친 뒤 통합 문서를 다시 받으세요.</p>
+      <p class="hint mt">수정 가결이면 ② 범위 수합 단계에서 해당 과목을 고친 뒤 통합 문서를 다시 받으세요.</p>
       <div class="row">${S.dl ? `<button class="btn pri" data-act="dlMinutesHwpx">회의록 한글(.hwpx)</button><button class="btn" data-act="dlAllHwpx">회의록 + 운영 방안 한글(.hwpx)</button><button class="btn" data-act="dlMinutes">회의록 워드(.docx)</button>` : ''}</div>
     </div>
     <div class="sheetwrap"><button class="btn sm zoomtg" data-act="sheetZoom" hidden>${S.sheetFull ? '한눈에 보기' : '실제 크기로 보기'}</button><div class="sheet" style="${sheetStyle(DOC_PAGE.minutes)}">${blocksToHTML(minutesBlocks(e, S.ranges), DOC_PAGE.minutes)}</div></div></div>`;
@@ -1838,7 +1868,9 @@ document.addEventListener('click', async ev => {
   else if (act === 'copyMsg') {
     const due = findTask(e, '시험범위 수합'), st = rangeStatus(e, S.ranges);
     const miss = st.subs.filter(s => !s.grades.every(g => S.ranges[s.name] && (S.ranges[s.name].text || {})[g])).map(s => s.name);
-    const msg = `[교무부] ${examTitle(e)} 시험범위 입력 요청\n\n선생님들, 안녕하세요.\n${examTitle(e)}(${dShort(examStart(e))}~${dShort(examEnd(e))}) 시험범위를 ${due && due.d1 ? dLong(due.d1) + '까지' : '기한 내에'} 아래 링크에 직접 입력해 주시기 바랍니다.\n파일로 보내실 필요 없이 링크에서 과목을 고르고 학년별 범위(단원명, 쪽수, 학습지 등)를 적은 뒤 ‘제출’을 누르시면 됩니다.\n\n▶ 입력 링크: (이 페이지 주소를 붙여 넣으세요)\n${miss.length ? `▶ 미입력 과목: ${miss.join(', ')}\n` : ''}\n감사합니다.`;
+    // 실제로 배포된 주소에서 열었을 때만 링크를 넣음
+    const link = /^https?:$/.test(location.protocol) && !/^(localhost|127\.|\[::1\])/.test(location.hostname) ? location.origin + location.pathname : '';
+    const msg = `[교무부] ${examTitle(e)} 시험범위 입력 요청\n\n선생님들, 안녕하세요.\n${examTitle(e)}(${dShort(examStart(e))}~${dShort(examEnd(e))}) 시험범위를 ${due && due.d1 ? dLong(due.d1) + '까지' : '기한 내에'} 아래 링크에 직접 입력해 주시기 바랍니다.\n파일로 보내실 필요 없이 링크에서 과목을 고르고 학년별 범위(단원명, 쪽수, 학습지 등)를 적은 뒤 ‘시험범위 제출’을 누르시면 됩니다.\n\n▶ 입력 링크: ${link || '(이 페이지 주소를 붙여 넣으세요)'}\n${miss.length ? `▶ 미입력 과목: ${miss.join(', ')}\n` : ''}\n감사합니다.`;
     copyText(msg, '요청 메시지');
   }
   else if (act === 'copyDoc') {
@@ -1887,7 +1919,7 @@ function backupIn() {
         for (const e of ex) { if (S.db) await S.db.doc('exams/' + e.id).set(e); else if (!S.exams.find(x => x.id === e.id)) S.exams.push(e); n++; }
         for (const r of rg) { if (S.db) await S.db.doc('ranges/' + rangeDocId(r.examId, r.subject)).set(r); n++; }
         toast(`가져왔습니다. (${ex.length}개 고사, ${rg.length}건 시험범위)`); render();
-      } catch (x) { toast(`가져오는 중 멈췄습니다. (${n}건 완료) 권한을 확인해 주세요.`, 1); }
+      } catch (x) { toast(`가져오는 중 멈췄습니다. (${n}건 완료) ${denied(x) ? '관리자로 다시 들어와 주세요.' : '인터넷 연결을 확인해 주세요.'}`, 1); }
     });
   };
   inp.click();
@@ -1974,16 +2006,34 @@ document.addEventListener('submit', async ev => {
     document.activeElement && document.activeElement.blur(); render();
   } catch (x) {
     btn.disabled = false; btn.textContent = label;
-    toast(x && x.code === 'invalid_argument' ? '입력 권한이 없습니다. 교무부에 편집 권한을 요청해 주세요.' : '저장하지 못했습니다. 잠시 후 다시 시도해 주세요.', 1);
+    toast(!denied(x) ? '저장하지 못했습니다. 인터넷 연결을 확인하고 다시 시도해 주세요.' : admin() ? saveFail(x) : '입력이 마감되어 저장하지 못했습니다. 고칠 내용이 있으면 교무부에 알려 주세요.', 1);
   }
 });
 
 /* ===================== 모달 ===================== */
+let modalOpener = null;
 function modal(html) {
-  $('#modalRoot').innerHTML = `<div class="modal-bg" data-bg><div class="modal" role="dialog" aria-modal="true">${html}</div></div>`;
+  if (!$('#modalRoot').firstChild) modalOpener = document.activeElement;
+  $('#modalRoot').innerHTML = `<div class="modal-bg" data-bg><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">${html}</div></div>`;
+  const m = $('.modal'), h = m.querySelector('h2'); if (h) h.id = 'modalTitle';
+  m.focus();
 }
-function closeModal() { $('#modalRoot').innerHTML = ''; }
-document.addEventListener('keydown', ev => { if (ev.key === 'Escape' && $('#modalRoot').firstChild) closeModal(); });
+function closeModal() {
+  if (!$('#modalRoot').firstChild) return;
+  $('#modalRoot').innerHTML = '';
+  const o = modalOpener; modalOpener = null;
+  if (o && o.focus && document.contains(o)) try { o.focus(); } catch (x) {}
+}
+document.addEventListener('keydown', ev => {
+  const m = $('.modal'); if (!m) return;
+  if (ev.key === 'Escape') { closeModal(); return; }
+  if (ev.key !== 'Tab') return;
+  const f = [...m.querySelectorAll('button,input,select,textarea,a[href]')].filter(x => !x.disabled && x.offsetParent);
+  if (!f.length) { ev.preventDefault(); return; }
+  const a = document.activeElement;
+  if (ev.shiftKey && (a === f[0] || a === m)) { ev.preventDefault(); f[f.length - 1].focus(); }
+  else if (!ev.shiftKey && (a === f[f.length - 1] || !m.contains(a))) { ev.preventDefault(); f[0].focus(); }
+});
 document.addEventListener('click', ev => {
   if (ev.target.matches('[data-bg]') || ev.target.closest('[data-close]')) closeModal();
 });
@@ -1996,11 +2046,11 @@ function openNewExam() {
   const now = new Date(), y = now.getFullYear();
   const guess = last ? (last.kind === '중간' ? { s: last.semester, k: '기말' } : { s: last.semester === 1 ? 2 : 1, k: '중간' }) : { s: now.getMonth() < 7 ? 1 : 2, k: '중간' };
   modal(`<h2>새 고사 만들기</h2><p class="hint">시험 시작일을 넣으면 일정이 자동으로 만들어집니다. ${last ? '고사장·고사본부·제출처 등은 지난 고사 설정을 이어받습니다.' : ''}</p>
-    <form id="newForm"><div class="grid" style="grid-template-columns:1fr 1fr 1fr">
+    <form id="newForm"><div class="grid three">
       <label class="f">학년도<input type="number" name="year" value="${last ? last.year : y}"></label>
       <label class="f">학기<select name="semester"><option value="1"${guess.s === 1 ? ' selected' : ''}>1학기</option><option value="2"${guess.s === 2 ? ' selected' : ''}>2학기</option></select></label>
       <label class="f">구분<select name="kind"><option${guess.k === '중간' ? ' selected' : ''}>중간</option><option${guess.k === '기말' ? ' selected' : ''}>기말</option></select></label>
-      <label class="f" style="grid-column:1/-1">대상 학년<div class="chk">${[1, 2, 3].map(g => `<label><input type="checkbox" name="g" value="${g}"${!last || (last.grades || []).map(Number).includes(g) ? ' checked' : ''}>${g}학년</label>`).join('')}</div></label>
+      <div class="f wide">대상 학년<div class="chk">${[1, 2, 3].map(g => `<label><input type="checkbox" name="g" value="${g}"${!last || (last.grades || []).map(Number).includes(g) ? ' checked' : ''}>${g}학년</label>`).join('')}</div></div>
       <label class="f">시험 시작일<input type="date" name="start" required></label>
       <label class="f">시험 일수<select name="count">${[1, 2, 3, 4, 5].map(n => `<option${n === 3 ? ' selected' : ''}>${n}</option>`).join('')}</select></label>
       <label class="f">하루 교시 수<select name="ppd">${[1, 2, 3, 4].map(n => `<option${n === (last ? last.periodsPerDay || 2 : 2) ? ' selected' : ''}>${n}</option>`).join('')}</select></label>
@@ -2013,7 +2063,7 @@ function openNewExam() {
     const carry = last ? { hq: last.hq, supervision: last.supervision, briefing: last.briefing, briefingOwner: last.briefingOwner, examTime: last.examTime, examNote: last.examNote, submitTo: last.submitTo, notice: last.notice, training: last.training } : {};
     const e = newExam(Object.assign(carry, { year: Number(f.year.value), semester: Number(f.semester.value), kind: f.kind.value, grades: gs, start: f.start.value, count: Number(f.count.value), periodsPerDay: Number(f.ppd.value) }));
     S.exams.push(e); closeModal(); S.examId = e.id; S.tab = 'info'; S.infoTab = 'tt'; S.ranges = {}; subscribeRanges();
-    try { await Store.saveExam(e); toast('고사를 만들었습니다. 시간표에 과목을 입력해 주세요.'); } catch (x) { toast('저장하지 못했습니다. 편집 권한을 확인해 주세요.', 1); }
+    try { await Store.saveExam(e); toast('고사를 만들었습니다. 시간표에 과목을 입력해 주세요.'); } catch (x) { toast(saveFail(x), 1); }
     render();
   };
 }
